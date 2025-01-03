@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { ParticipantModel } from "../../models/participantModels";
 
-import randomHexColor from "../../functions/helpers";
+import { randomHexColor } from "../../functions/helpers";
 
 interface ParticipantsProps {
   participants: ParticipantModel[];
@@ -17,8 +17,6 @@ export default function Participants(props: ParticipantsProps) {
   const [participantName, setParticipantName] = useState<string>("");
 
   function handleAddParticipant(): void {
-    
-
     addParticipant({
       name: participantName,
       color: randomHexColor(),

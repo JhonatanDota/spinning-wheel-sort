@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { WheelDataType } from "react-custom-roulette";
 
+import { stringShortener } from "./functions/helpers";
+
 import { ParticipantModel } from "./models/participantModels";
 import { SpiningVelocityEnum } from "./enums/spinningVelocityEnum";
 
@@ -8,6 +10,8 @@ import Wheel from "./components/wheel/Wheel";
 import Participants from "./components/participants/Participants";
 
 function App() {
+  const MAX_OPTION_LENGTH = 13;
+
   const [participants, setParticipants] = useState<ParticipantModel[]>([]);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
   const [winners, setWinners] = useState<string[]>([]);
@@ -22,7 +26,7 @@ function App() {
     if (participants.length) {
       setWheelData(
         participants.map((participant) => ({
-          option: participant.name,
+          option: stringShortener(participant.name, MAX_OPTION_LENGTH),
           style: { backgroundColor: participant.color },
         }))
       );
