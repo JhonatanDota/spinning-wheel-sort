@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { ToastContainer, Flip } from "react-toastify";
 import { WheelDataType } from "react-custom-roulette";
 
-import { generateId } from "./functions/helpers";
 import { stringShortener } from "./functions/helpers";
 
 import { ParticipantModel } from "./models/participantModels";

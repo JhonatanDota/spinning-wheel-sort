@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
+import { FaPlusCircle } from "react-icons/fa";
+
 import { randomHexColor } from "../../functions/helpers";
 
 import { ParticipantModel } from "../../models/participantModels";
@@ -90,22 +92,24 @@ export default function Participants(props: ParticipantsProps) {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-3">
         <input
-          className="border-2 p-2 rounded-lg focus:outline-none"
+          className="text-sm font-medium px-3 py-1.5 rounded-lg focus:outline-none"
           type="text"
           value={participantName}
           onChange={(e) => setParticipantName(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === KEYBOARD_KEY_ADD_PARTICIPANT) handleAddParticipant();
           }}
+          placeholder="Participante"
         />
 
         <button
           onClick={handleAddParticipant}
-          className="border-2 px-4 py-1 rounded-lg"
+          className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg bg-green-600 text-white"
         >
-          ADD
+          <FaPlusCircle />
+          <span className="uppercase text-sm">Participante</span>
         </button>
       </div>
 
