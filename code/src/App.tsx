@@ -56,6 +56,8 @@ function App() {
           style: { backgroundColor: participant.color },
         }))
       );
+    } else {
+      setWheelData([{}]);
     }
   }, [participants]);
 

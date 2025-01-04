@@ -1,7 +1,6 @@
 export function randomHexColor(): string {
-  return (
-    "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substring(1, 6)
-  );
+  const color = Math.floor(Math.random() * 0xffffff);
+  return `#${color.toString(16).padStart(6, "0")}`;
 }
 
 export function stringShortener(text: string, maxLength: number): string {
