@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+
+import { participantMessages } from "../../extra/participantEasterEgg";
 
 import { ParticipantModel } from "../../models/participantModels";
 
@@ -10,6 +13,8 @@ interface ParticipantsProps {
 }
 
 export default function Participants(props: ParticipantsProps) {
+  const MAX_NAME_LENGTH = 18;
+
   const KEYBOARD_KEY_ADD_PARTICIPANT = "Enter";
 
   const { participants, addParticipant } = props;
@@ -17,12 +22,57 @@ export default function Participants(props: ParticipantsProps) {
   const [participantName, setParticipantName] = useState<string>("");
 
   function handleAddParticipant(): void {
-    addParticipant({
+    const participant: ParticipantModel = {
       name: participantName,
       color: randomHexColor(),
-    });
+    };
 
-    setParticipantName("");
+    try {
+      addParticipantValidations(participant);
+      addParticipant(participant);
+      handleParticipantEasterEgg(participant);
+
+      setParticipantName("");
+    } catch (error) {}
+  }
+
+  function addParticipantValidations(participant: ParticipantModel): void {
+    if (!participant.name.length) {
+      toast("Digita alguma coisa PCD", {
+        type: "warning",
+      });
+
+      throw new Error();
+    }
+
+    if (participant.name.length > MAX_NAME_LENGTH) {
+      toast("Nick grande da porra, diminui isso ai", {
+        type: "warning",
+      });
+
+      throw new Error();
+    }
+
+    if (
+      participants.some(
+        (p) => p.name.toLowerCase() === participant.name.toLocaleLowerCase()
+      )
+    ) {
+      toast("O arrombado já tá ai", {
+        type: "warning",
+      });
+
+      throw new Error();
+    }
+  }
+
+  function handleParticipantEasterEgg(participant: ParticipantModel): void {
+    const participantMessage: string | undefined =
+      participantMessages[participant.name.toUpperCase()];
+
+    if (participantMessage) {
+      toast(participantMessage);
+    }
   }
 
   return (

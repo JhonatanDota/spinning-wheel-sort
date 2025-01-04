@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ToastContainer, Flip } from "react-toastify";
 import { WheelDataType } from "react-custom-roulette";
 
 import { stringShortener } from "./functions/helpers";
@@ -10,7 +11,7 @@ import Wheel from "./components/wheel/Wheel";
 import Participants from "./components/participants/Participants";
 
 function App() {
-  const MAX_OPTION_LENGTH = 13;
+  const MAX_OPTION_LENGTH = 12;
 
   const [participants, setParticipants] = useState<ParticipantModel[]>([]);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
@@ -46,6 +47,14 @@ function App() {
         data={wheelData}
         spinningVelocity={SpiningVelocityEnum.FAST}
         onSpinStop={(index: number) => onSpinStop(index)}
+      />
+
+      <ToastContainer
+        className="font-bold"
+        position="bottom-center"
+        autoClose={1500}
+        theme="dark"
+        transition={Flip}
       />
     </div>
   );
