@@ -2,25 +2,50 @@ import { useEffect, useState } from "react";
 import { ToastContainer, Flip } from "react-toastify";
 import { WheelDataType } from "react-custom-roulette";
 
+import { generateId } from "./functions/helpers";
 import { stringShortener } from "./functions/helpers";
 
 import { ParticipantModel } from "./models/participantModels";
+import { TeamModel } from "./models/teamModels";
 import { SpiningVelocityEnum } from "./enums/spinningVelocityEnum";
 
 import Wheel from "./components/wheel/Wheel";
 import Participants from "./components/participants/Participants";
+import Teams from "./components/teams/Teams";
 
 function App() {
   const MAX_OPTION_LENGTH = 12;
 
   const [participants, setParticipants] = useState<ParticipantModel[]>([]);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
-  const [winners, setWinners] = useState<string[]>([]);
+  const [teams, setTeams] = useState<TeamModel[]>([
+    {
+      id: generateId(),
+      name: "Time 1",
+      players: ["Rafael", "Geneci"],
+    },
+
+    {
+      id: generateId(),
+      name: "Time 2",
+      players: ["Pedro", "Caio"],
+    },
+  ]);
+  const [teamReceivePlayer, setTeamReceivePlayer] = useState<TeamModel>();
 
   function onSpinStop(dataIndex: number): void {
-    const winner = wheelData.at(dataIndex);
+    const draw = wheelData.at(dataIndex);
 
-    if (winner && winner.option) setWinners([...winners, winner.option]);
+    if (draw && draw.option && teamReceivePlayer) {
+      const playerName = draw.option;
+      const updatedTeams = teams.map((team) => {
+        if (team.id === teamReceivePlayer.id) team.players.push(playerName);
+
+        return team;
+      });
+
+      setTeams(updatedTeams);
+    }
   }
 
   useEffect(() => {
@@ -48,6 +73,8 @@ function App() {
         spinningVelocity={SpiningVelocityEnum.FAST}
         onSpinStop={(index: number) => onSpinStop(index)}
       />
+
+      <Teams teams={teams} setTeamReceivePlayer={setTeamReceivePlayer} />
 
       <ToastContainer
         className="font-bold"
