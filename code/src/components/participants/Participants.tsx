@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-import { participantMessages } from "../../extra/participantEasterEgg";
+import { randomHexColor } from "../../functions/helpers";
 
 import { ParticipantModel } from "../../models/participantModels";
 
-import { randomHexColor } from "../../functions/helpers";
+import { participantMessages } from "../../extra/participantEasterEgg";
+
+import Participant from "./Participant";
 
 interface ParticipantsProps {
   participants: ParticipantModel[];
-  addParticipant: (participant: ParticipantModel) => void;
+  setParticipants: (participants: ParticipantModel[]) => void;
 }
 
 export default function Participants(props: ParticipantsProps) {
@@ -17,7 +19,7 @@ export default function Participants(props: ParticipantsProps) {
 
   const KEYBOARD_KEY_ADD_PARTICIPANT = "Enter";
 
-  const { participants, addParticipant } = props;
+  const { participants, setParticipants } = props;
 
   const [participantName, setParticipantName] = useState<string>("");
 
@@ -34,6 +36,17 @@ export default function Participants(props: ParticipantsProps) {
 
       setParticipantName("");
     } catch (error) {}
+  }
+
+  function addParticipant(participant: ParticipantModel): void {
+    setParticipants([...participants, participant]);
+  }
+
+  function removeParticipant(indexToRemove: number): void {
+    const updatedParticipants = [...participants];
+
+    updatedParticipants.splice(indexToRemove, 1);
+    setParticipants(updatedParticipants);
   }
 
   function addParticipantValidations(participant: ParticipantModel): void {
@@ -98,9 +111,11 @@ export default function Participants(props: ParticipantsProps) {
 
       <div className="flex flex-wrap gap-3">
         {participants.map((participant, index) => (
-          <div key={index} className="border-[1px] rounded-md px-2 py-0.5">
-            <h3 className="text-red-400">{participant.name}</h3>
-          </div>
+          <Participant
+            key={index}
+            participant={participant}
+            removeParticipant={() => removeParticipant(index)}
+          />
         ))}
       </div>
     </div>

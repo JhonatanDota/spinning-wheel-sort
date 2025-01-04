@@ -63,9 +63,7 @@ function App() {
     <div className="flex flex-col items-center p-4">
       <Participants
         participants={participants}
-        addParticipant={(participant) =>
-          setParticipants((prev) => [...prev, participant])
-        }
+        setParticipants={setParticipants}
       />
 
       <Wheel
