@@ -1,5 +1,9 @@
 import { TeamModel } from "../../models/teamModels";
 
+import { FaTrashAlt } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
+import { FaLockOpen } from "react-icons/fa";
+
 interface TeamProps {
   team: TeamModel;
   teamReceivePlayer?: TeamModel;
@@ -19,12 +23,18 @@ export default function Team(props: TeamProps) {
             : "bg-blue-200 text-gray-900"
         }`}
       >
-        <p className="uppercase text-lg font-bold">{team.name}</p>
+        <span className="uppercase text-lg font-bold">{team.name}</span>
       </div>
 
-      {team.players.map((player, index) => (
-        <h3 key={index}>{player}</h3>
-      ))}
+      <div className="flex flex-col items-center font-medium text-white">
+        {team.players.map((player, index) => (
+          <h3 key={index}>{player}</h3>
+        ))}
+      </div>
+
+      <button className="flex justify-center p-2 bg-red-600 text-white rounded-md w-full">
+        <FaTrashAlt />
+      </button>
     </div>
   );
 }

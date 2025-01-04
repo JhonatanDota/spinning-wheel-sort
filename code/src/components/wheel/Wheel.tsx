@@ -31,10 +31,11 @@ export default function Wheel(props: WheelProps) {
           onSpinStop(prizeNumber);
           setMustSpin(false);
         }}
-        outerBorderWidth={0}
+        outerBorderWidth={0.5}
         innerRadius={4}
         innerBorderWidth={3}
         radiusLineWidth={0}
+        disableInitialAnimation={true}
       />
 
       <button

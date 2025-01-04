@@ -34,7 +34,7 @@ export default function Teams(props: TeamsProps) {
         + Time
       </button>
 
-      <div className="grid grid-cols-2 gap-7">
+      <div className="flex flex-wrap gap-7">
         {teams.map((team) => (
           <Team
             key={team.id}
