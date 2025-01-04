@@ -18,19 +18,7 @@ function App() {
 
   const [participants, setParticipants] = useState<ParticipantModel[]>([]);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
-  const [teams, setTeams] = useState<TeamModel[]>([
-    {
-      id: generateId(),
-      name: "Time 1",
-      players: ["Rafael", "Geneci"],
-    },
-
-    {
-      id: generateId(),
-      name: "Time 2",
-      players: ["Pedro", "Caio"],
-    },
-  ]);
+  const [teams, setTeams] = useState<TeamModel[]>([]);
   const [teamReceivePlayer, setTeamReceivePlayer] = useState<TeamModel>();
 
   function onSpinStop(dataIndex: number): void {
@@ -62,7 +50,7 @@ function App() {
   }, [participants]);
 
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="flex flex-col items-center gap-5 p-4">
       <Participants
         participants={participants}
         setParticipants={setParticipants}
@@ -74,7 +62,12 @@ function App() {
         onSpinStop={(index: number) => onSpinStop(index)}
       />
 
-      <Teams teams={teams} setTeamReceivePlayer={setTeamReceivePlayer} />
+      <Teams
+        teams={teams}
+        setTeams={setTeams}
+        teamReceivePlayer={teamReceivePlayer}
+        setTeamReceivePlayer={setTeamReceivePlayer}
+      />
 
       <ToastContainer
         className="font-bold"

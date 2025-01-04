@@ -21,7 +21,7 @@ export default function Wheel(props: WheelProps) {
   }
 
   return (
-    <>
+    <div className="flex items-center">
       <WheelRoulette
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
@@ -37,7 +37,12 @@ export default function Wheel(props: WheelProps) {
         radiusLineWidth={0}
       />
 
-      <button onClick={handleSpinClick}>SPIN</button>
-    </>
+      <button
+        className="h-10 uppercase bg-orange-600 p-2 font-bold text-white rounded-md"
+        onClick={handleSpinClick}
+      >
+        SPIN
+      </button>
+    </div>
   );
 }
