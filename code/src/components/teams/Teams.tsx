@@ -34,7 +34,7 @@ export default function Teams(props: TeamsProps) {
   return (
     <div className="flex flex-col gap-5">
       <button
-        className="flex items-center gap-2 text-base md:text-xl self-center uppercase bg-green-600 p-2 md:p-3 font-bold text-white rounded-md"
+        className="flex items-center gap-2 text-sm md:text-xl self-center uppercase bg-green-600 px-4 md:px-5 py-2 font-bold text-white rounded-lg"
         onClick={addTeam}
       >
         <FaPlusCircle />

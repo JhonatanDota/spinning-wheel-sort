@@ -3,8 +3,6 @@ import { toast } from "react-toastify";
 
 import { FaPlusCircle } from "react-icons/fa";
 
-import { randomHexColor } from "../../functions/helpers";
-
 import { ParticipantModel } from "../../models/participantModels";
 
 import { participantMessages } from "../../extra/participantEasterEgg";
@@ -28,7 +26,6 @@ export default function Participants(props: ParticipantsProps) {
   function handleAddParticipant(): void {
     const participant: ParticipantModel = {
       name: participantName,
-      color: randomHexColor(),
     };
 
     try {
@@ -113,7 +110,7 @@ export default function Participants(props: ParticipantsProps) {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-3 md:w-2/3 md:m-auto">
+      <div className="flex flex-wrap gap-3">
         {participants.map((participant, index) => (
           <Participant
             key={index}

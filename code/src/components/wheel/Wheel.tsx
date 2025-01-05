@@ -23,7 +23,7 @@ export default function Wheel(props: WheelProps) {
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center overflow-hidden">
       <WheelRoulette
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
@@ -38,6 +38,21 @@ export default function Wheel(props: WheelProps) {
         innerBorderWidth={3}
         radiusLineWidth={0}
         disableInitialAnimation={true}
+        textColors={["#f5f5f5"]}
+        backgroundColors={[
+          "#3f297e",
+          "#175fa9",
+          "#169ed8",
+          "#239b63",
+          "#64b031",
+          "#efe61f",
+          "#f7a416",
+          "#e6471d",
+          "#dc0936",
+          "#e5177b",
+          "#be1180",
+          "#871f7f",
+        ]}
       />
 
       <button

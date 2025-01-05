@@ -13,7 +13,7 @@ export default function Team(props: TeamProps) {
   const { team, teamReceivePlayer, setTeamReceivePlayer, removeTeam } = props;
 
   return (
-    <div className="flex flex-col items-center gap-1 md:gap-3 rounded-md">
+    <div className="flex flex-col items-center gap-1 md:gap-3 rounded-md md:max-w-[200px]">
       <div
         onClick={() => setTeamReceivePlayer(team)}
         className={`flex px-3 md:px-5 py-0.5 md:py-2 rounded-md cursor-pointer transition-colors ${
@@ -25,7 +25,7 @@ export default function Team(props: TeamProps) {
         <span className="uppercase text-lg font-bold">{team.name}</span>
       </div>
 
-      <div className="flex flex-col items-center md:gap-2 text-base md:text-xl font-medium text-white">
+      <div className="flex flex-col items-center md:flex-row md:flex-wrap md:gap-3 text-base md:text-xl font-medium text-white">
         {team.players.map((player, index) => (
           <span key={index}>{player}</span>
         ))}

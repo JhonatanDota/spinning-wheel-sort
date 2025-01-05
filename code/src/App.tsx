@@ -40,7 +40,6 @@ function App() {
       setWheelData(
         participants.map((participant) => ({
           option: stringShortener(participant.name, MAX_OPTION_LENGTH),
-          style: { backgroundColor: participant.color },
         }))
       );
     } else {
@@ -49,17 +48,19 @@ function App() {
   }, [participants]);
 
   return (
-    <div className="flex flex-col items-center gap-5 p-4 overflow-x-hidden">
-      <Participants
-        participants={participants}
-        setParticipants={setParticipants}
-      />
+    <div className="flex flex-col items-center md:grid md:grid-cols-2 md:items-start gap-5 p-4 overflow-x-hidden">
+      <div className="flex flex-col items-center gap-3">
+        <Participants
+          participants={participants}
+          setParticipants={setParticipants}
+        />
 
-      <Wheel
-        data={wheelData}
-        spinningVelocity={SpiningVelocityEnum.FAST}
-        onSpinStop={(index: number) => onSpinStop(index)}
-      />
+        <Wheel
+          data={wheelData}
+          spinningVelocity={SpiningVelocityEnum.FAST}
+          onSpinStop={(index: number) => onSpinStop(index)}
+        />
+      </div>
 
       <Teams
         teams={teams}
