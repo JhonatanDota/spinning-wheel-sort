@@ -2,6 +2,8 @@ import { TeamModel } from "../../models/teamModels";
 
 import { generateId } from "../../functions/helpers";
 
+import { FaPlusCircle } from "react-icons/fa";
+
 import Team from "./Team";
 
 interface TeamsProps {
@@ -32,13 +34,14 @@ export default function Teams(props: TeamsProps) {
   return (
     <div className="flex flex-col gap-5">
       <button
-        className="self-center uppercase bg-green-600 p-2 font-bold text-white rounded-md"
+        className="flex items-center gap-2 text-base md:text-xl self-center uppercase bg-green-600 p-2 md:p-3 font-bold text-white rounded-md"
         onClick={addTeam}
       >
-        + Time
+        <FaPlusCircle />
+        <span>Time</span>
       </button>
 
-      <div className="grid grid-cols-3 gap-7">
+      <div className="grid grid-cols-3 md:flex md:flex-wrap gap-5 md:gap-7">
         {teams.map((team) => (
           <Team
             key={team.id}

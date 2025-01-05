@@ -91,10 +91,10 @@ export default function Participants(props: ParticipantsProps) {
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col gap-5 md:gap-7">
+      <div className="flex flex-col items-center gap-3 md:gap-5">
         <input
-          className="text-sm font-medium px-3 py-1.5 rounded-lg focus:outline-none"
+          className="text-sm md:text-xl font-medium px-3 md:px-4 py-1.5 md:py-3 rounded-lg focus:outline-none"
           type="text"
           value={participantName}
           onChange={(e) => setParticipantName(e.target.value)}
@@ -106,14 +106,14 @@ export default function Participants(props: ParticipantsProps) {
 
         <button
           onClick={handleAddParticipant}
-          className="flex items-center gap-2 font-bold px-4 py-2 rounded-lg bg-green-600 text-white"
+          className="flex items-center gap-2 text-sm md:text-xl font-bold px-4 md:px-5 py-2 rounded-lg bg-green-600 text-white"
         >
           <FaPlusCircle />
-          <span className="uppercase text-sm">Participante</span>
+          <span className="uppercase">Participante</span>
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3 md:w-2/3 md:m-auto">
         {participants.map((participant, index) => (
           <Participant
             key={index}

@@ -41,7 +41,7 @@ export default function Wheel(props: WheelProps) {
       />
 
       <button
-        className="h-10 uppercase p-2 bg-orange-600 text-white rounded-full"
+        className="flex items-center text-base md:text-2xl p-2 md:p-3 bg-orange-600 text-white rounded-lg"
         onClick={handleSpinClick}
       >
         <ImSpinner11 fill="white" />
