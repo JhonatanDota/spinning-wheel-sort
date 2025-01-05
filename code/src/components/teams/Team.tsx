@@ -1,23 +1,22 @@
 import { TeamModel } from "../../models/teamModels";
 
 import { FaTrashAlt } from "react-icons/fa";
-import { FaLock } from "react-icons/fa";
-import { FaLockOpen } from "react-icons/fa";
 
 interface TeamProps {
   team: TeamModel;
   teamReceivePlayer?: TeamModel;
   setTeamReceivePlayer: (team: TeamModel) => void;
+  removeTeam: (team: TeamModel) => void;
 }
 
 export default function Team(props: TeamProps) {
-  const { team, teamReceivePlayer, setTeamReceivePlayer } = props;
+  const { team, teamReceivePlayer, setTeamReceivePlayer, removeTeam } = props;
 
   return (
     <div className="flex flex-col items-center gap-1 rounded-md">
       <div
         onClick={() => setTeamReceivePlayer(team)}
-        className={`flex px-4 py-1 rounded-md cursor-pointer ${
+        className={`flex px-4 py-1 rounded-md cursor-pointer transition-colors ${
           team.id === teamReceivePlayer?.id
             ? "bg-green-700 text-white"
             : "bg-blue-200 text-gray-900"
@@ -32,7 +31,10 @@ export default function Team(props: TeamProps) {
         ))}
       </div>
 
-      <button className="flex justify-center p-2 bg-red-600 text-white rounded-md w-full">
+      <button
+        onClick={() => removeTeam(team)}
+        className="flex justify-center p-2 bg-red-600 text-white rounded-md w-full"
+      >
         <FaTrashAlt />
       </button>
     </div>

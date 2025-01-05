@@ -49,7 +49,7 @@ function App() {
   }, [participants]);
 
   return (
-    <div className="flex flex-col items-center gap-5 p-4">
+    <div className="flex flex-col items-center gap-5 p-4 overflow-x-hidden">
       <Participants
         participants={participants}
         setParticipants={setParticipants}

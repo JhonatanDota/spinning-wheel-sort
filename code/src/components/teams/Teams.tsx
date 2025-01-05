@@ -25,22 +25,27 @@ export default function Teams(props: TeamsProps) {
     setTeamReceivePlayer(team);
   }
 
+  function removeTeam(teamToRemove: TeamModel): void {
+    setTeams(teams.filter((team) => team.id !== teamToRemove.id));
+  }
+
   return (
     <div className="flex flex-col gap-5">
       <button
-        className="uppercase bg-green-600 p-2 font-bold text-white rounded-md"
+        className="self-center uppercase bg-green-600 p-2 font-bold text-white rounded-md"
         onClick={addTeam}
       >
         + Time
       </button>
 
-      <div className="flex flex-wrap gap-7">
+      <div className="grid grid-cols-3 gap-7">
         {teams.map((team) => (
           <Team
             key={team.id}
             team={team}
             teamReceivePlayer={teamReceivePlayer}
             setTeamReceivePlayer={setTeamReceivePlayer}
+            removeTeam={removeTeam}
           />
         ))}
       </div>

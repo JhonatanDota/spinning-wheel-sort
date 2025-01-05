@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Wheel as WheelRoulette, WheelDataType } from "react-custom-roulette";
 
+import { ImSpinner11 } from "react-icons/im";
+
 import { SpiningVelocityEnum } from "../../enums/spinningVelocityEnum";
 
 interface WheelProps {
@@ -39,10 +41,10 @@ export default function Wheel(props: WheelProps) {
       />
 
       <button
-        className="h-10 uppercase bg-orange-600 p-2 font-bold text-white rounded-md"
+        className="h-10 uppercase p-2 bg-orange-600 text-white rounded-full"
         onClick={handleSpinClick}
       >
-        SPIN
+        <ImSpinner11 fill="white" />
       </button>
     </div>
   );
