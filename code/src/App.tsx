@@ -14,6 +14,7 @@ import Teams from "./components/teams/Teams";
 
 function App() {
   const MAX_OPTION_LENGTH = 12;
+  const ADD_PARTICIPANT_TO_TEAM_MS_DELAY = 250; // TO AVOID WHEEL BLINKS
 
   const [participants, setParticipants] = useState<ParticipantModel[]>([]);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
@@ -31,7 +32,9 @@ function App() {
         return team;
       });
 
-      setTeams(updatedTeams);
+      setTimeout(() => {
+        setTeams(updatedTeams);
+      }, ADD_PARTICIPANT_TO_TEAM_MS_DELAY);
     }
   }
 

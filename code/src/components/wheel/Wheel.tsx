@@ -37,7 +37,6 @@ export default function Wheel(props: WheelProps) {
         innerRadius={4}
         innerBorderWidth={3}
         radiusLineWidth={0}
-        disableInitialAnimation={true}
         textColors={["#f5f5f5"]}
         backgroundColors={[
           "#3f297e",
