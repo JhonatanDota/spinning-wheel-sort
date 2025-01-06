@@ -33,6 +33,9 @@ function App() {
       });
 
       setTimeout(() => {
+        setParticipants((prev) => {
+          return prev.filter((_, i) => i !== dataIndex);
+        });
         setTeams(updatedTeams);
       }, ADD_PARTICIPANT_TO_TEAM_MS_DELAY);
     }
