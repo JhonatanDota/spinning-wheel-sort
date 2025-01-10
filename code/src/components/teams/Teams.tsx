@@ -9,7 +9,7 @@ import Team from "./Team";
 interface TeamsProps {
   teams: TeamModel[];
   setTeams: (teams: TeamModel[]) => void;
-  teamReceivePlayer?: TeamModel;
+  teamReceivePlayer: TeamModel | null;
   setTeamReceivePlayer: (team: TeamModel) => void;
 }
 

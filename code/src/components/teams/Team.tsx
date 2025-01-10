@@ -4,7 +4,7 @@ import { FaTrashAlt } from "react-icons/fa";
 
 interface TeamProps {
   team: TeamModel;
-  teamReceivePlayer?: TeamModel;
+  teamReceivePlayer: TeamModel | null;
   setTeamReceivePlayer: (team: TeamModel) => void;
   removeTeam: (team: TeamModel) => void;
 }

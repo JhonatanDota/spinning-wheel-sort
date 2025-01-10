@@ -20,7 +20,9 @@ function App() {
   const [canSpinWheel, setCanSpinWheel] = useState<boolean>(true);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
   const [teams, setTeams] = useState<TeamModel[]>([]);
-  const [teamReceivePlayer, setTeamReceivePlayer] = useState<TeamModel>();
+  const [teamReceivePlayer, setTeamReceivePlayer] = useState<TeamModel | null>(
+    null
+  );
 
   function onSpinStop(drawnIndex: number): void {
     const drawn = wheelData.at(drawnIndex);
@@ -56,6 +58,16 @@ function App() {
       setWheelData([{}]);
     }
   }, [participants]);
+
+  useEffect(() => {
+    const teamReceivePlayerExists = teams.some(
+      (team) => team.id === teamReceivePlayer?.id
+    );
+
+    if (!teamReceivePlayerExists) {
+      setTeamReceivePlayer(null);
+    }
+  }, [teams]);
 
   return (
     <div className="flex flex-col items-center md:grid md:grid-cols-2 md:items-start gap-5 p-4 overflow-x-hidden">
