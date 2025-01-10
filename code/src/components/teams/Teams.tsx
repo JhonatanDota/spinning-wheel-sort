@@ -11,10 +11,17 @@ interface TeamsProps {
   setTeams: (teams: TeamModel[]) => void;
   teamReceivePlayer: TeamModel | null;
   setTeamReceivePlayer: (team: TeamModel) => void;
+  canSpinWheel: boolean;
 }
 
 export default function Teams(props: TeamsProps) {
-  const { teams, setTeams, teamReceivePlayer, setTeamReceivePlayer } = props;
+  const {
+    teams,
+    setTeams,
+    teamReceivePlayer,
+    setTeamReceivePlayer,
+    canSpinWheel,
+  } = props;
 
   function addTeam(): void {
     const team: TeamModel = {
@@ -34,8 +41,9 @@ export default function Teams(props: TeamsProps) {
   return (
     <div className="flex flex-col gap-5">
       <button
-        className="flex items-center gap-2 text-sm md:text-xl self-center uppercase bg-green-600 px-4 md:px-5 py-2 font-bold text-white rounded-lg"
+        className="flex items-center gap-2 text-sm md:text-xl self-center uppercase bg-green-600 px-4 md:px-5 py-2 font-bold text-white rounded-lg disabled:opacity-55"
         onClick={addTeam}
+        disabled={!canSpinWheel}
       >
         <FaPlusCircle />
         <span>Time</span>
@@ -49,6 +57,7 @@ export default function Teams(props: TeamsProps) {
             teamReceivePlayer={teamReceivePlayer}
             setTeamReceivePlayer={setTeamReceivePlayer}
             removeTeam={removeTeam}
+            canSpinWheel={canSpinWheel}
           />
         ))}
       </div>

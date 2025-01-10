@@ -75,6 +75,7 @@ function App() {
         <Participants
           participants={participants}
           setParticipants={setParticipants}
+          canSpinWheel={canSpinWheel}
         />
 
         <Wheel
@@ -91,6 +92,7 @@ function App() {
         setTeams={setTeams}
         teamReceivePlayer={teamReceivePlayer}
         setTeamReceivePlayer={setTeamReceivePlayer}
+        canSpinWheel={canSpinWheel}
       />
 
       <ToastContainer

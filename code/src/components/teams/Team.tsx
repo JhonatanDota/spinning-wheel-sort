@@ -7,20 +7,27 @@ interface TeamProps {
   teamReceivePlayer: TeamModel | null;
   setTeamReceivePlayer: (team: TeamModel) => void;
   removeTeam: (team: TeamModel) => void;
+  canSpinWheel: boolean;
 }
 
 export default function Team(props: TeamProps) {
-  const { team, teamReceivePlayer, setTeamReceivePlayer, removeTeam } = props;
+  const {
+    team,
+    teamReceivePlayer,
+    setTeamReceivePlayer,
+    removeTeam,
+    canSpinWheel,
+  } = props;
 
   return (
     <div className="flex flex-col items-center gap-1 md:gap-3 rounded-md md:max-w-[200px]">
       <div
-        onClick={() => setTeamReceivePlayer(team)}
-        className={`flex px-3 md:px-5 py-0.5 md:py-2 rounded-md cursor-pointer transition-colors ${
+        onClick={() => canSpinWheel && setTeamReceivePlayer(team)}
+        className={`flex px-3 md:px-5 py-0.5 md:py-2 rounded-md transition-colors ${
           team.id === teamReceivePlayer?.id
             ? "bg-green-700 text-white"
             : "bg-blue-200 text-gray-800"
-        }`}
+        } ${canSpinWheel ? "cursor-pointer" : "cursor-not-allowed"}`}
       >
         <span className="uppercase text-lg font-bold">{team.name}</span>
       </div>
@@ -33,7 +40,8 @@ export default function Team(props: TeamProps) {
 
       <button
         onClick={() => removeTeam(team)}
-        className="flex justify-center p-1.5 bg-red-600 text-white rounded-md w-full"
+        className="flex justify-center p-1.5 bg-red-600 text-white rounded-md w-full disabled:opacity-55"
+        disabled={!canSpinWheel}
       >
         <FaTrashAlt />
       </button>

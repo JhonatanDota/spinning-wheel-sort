@@ -12,6 +12,7 @@ import Participant from "./Participant";
 interface ParticipantsProps {
   participants: ParticipantModel[];
   setParticipants: (participants: ParticipantModel[]) => void;
+  canSpinWheel: boolean;
 }
 
 export default function Participants(props: ParticipantsProps) {
@@ -19,7 +20,7 @@ export default function Participants(props: ParticipantsProps) {
 
   const KEYBOARD_KEY_ADD_PARTICIPANT = "Enter";
 
-  const { participants, setParticipants } = props;
+  const { participants, setParticipants, canSpinWheel } = props;
 
   const [participantName, setParticipantName] = useState<string>("");
 
@@ -103,7 +104,8 @@ export default function Participants(props: ParticipantsProps) {
 
         <button
           onClick={handleAddParticipant}
-          className="flex items-center gap-2 text-sm md:text-xl font-bold px-4 md:px-5 py-2 rounded-lg bg-green-600 text-white"
+          className="flex items-center gap-2 text-sm md:text-xl font-bold px-4 md:px-5 py-2 rounded-lg bg-green-600 text-white disabled:opacity-55"
+          disabled={!canSpinWheel}
         >
           <FaPlusCircle />
           <span className="uppercase">Participante</span>
@@ -116,6 +118,7 @@ export default function Participants(props: ParticipantsProps) {
             key={index}
             participant={participant}
             removeParticipant={() => removeParticipant(index)}
+            canSpinWheel={canSpinWheel}
           />
         ))}
       </div>
