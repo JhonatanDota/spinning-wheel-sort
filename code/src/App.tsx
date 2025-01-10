@@ -14,31 +14,35 @@ import Teams from "./components/teams/Teams";
 
 function App() {
   const MAX_OPTION_LENGTH = 12;
-  const ADD_PARTICIPANT_TO_TEAM_MS_DELAY = 250; // TO AVOID WHEEL BLINKS
+  const AVOID_WHEEL_BLINK_DELAY_MS = 250;
 
   const [participants, setParticipants] = useState<ParticipantModel[]>([]);
+  const [canSpinWheel, setCanSpinWheel] = useState<boolean>(true);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
   const [teams, setTeams] = useState<TeamModel[]>([]);
   const [teamReceivePlayer, setTeamReceivePlayer] = useState<TeamModel>();
 
-  function onSpinStop(dataIndex: number): void {
-    const draw = wheelData.at(dataIndex);
+  function onSpinStop(drawnIndex: number): void {
+    const drawn = wheelData.at(drawnIndex);
 
-    if (draw && draw.option && teamReceivePlayer) {
-      const playerName = draw.option;
+    if (drawn && drawn.option && teamReceivePlayer) {
+      const playerName = drawn.option;
       const updatedTeams = teams.map((team) => {
         if (team.id === teamReceivePlayer.id) team.players.push(playerName);
-
         return team;
       });
 
       setTimeout(() => {
         setParticipants((prev) => {
-          return prev.filter((_, i) => i !== dataIndex);
+          return prev.filter((_, i) => i !== drawnIndex);
         });
         setTeams(updatedTeams);
-      }, ADD_PARTICIPANT_TO_TEAM_MS_DELAY);
+      }, AVOID_WHEEL_BLINK_DELAY_MS);
     }
+
+    setTimeout(() => {
+      setCanSpinWheel(true);
+    }, AVOID_WHEEL_BLINK_DELAY_MS);
   }
 
   useEffect(() => {
@@ -62,6 +66,8 @@ function App() {
         />
 
         <Wheel
+          canSpinWheel={canSpinWheel}
+          setCanSpinWheel={setCanSpinWheel}
           data={wheelData}
           spinningVelocity={SpiningVelocityEnum.FAST}
           onSpinStop={(index: number) => onSpinStop(index)}

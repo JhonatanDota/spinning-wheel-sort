@@ -110,7 +110,7 @@ export default function Participants(props: ParticipantsProps) {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap justify-center gap-3">
         {participants.map((participant, index) => (
           <Participant
             key={index}

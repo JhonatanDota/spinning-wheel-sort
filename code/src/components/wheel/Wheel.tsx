@@ -6,19 +6,24 @@ import { ImSpinner11 } from "react-icons/im";
 import { SpiningVelocityEnum } from "../../enums/spinningVelocityEnum";
 
 interface WheelProps {
+  canSpinWheel: boolean;
+  setCanSpinWheel: (can: boolean) => void;
   data: WheelDataType[];
   spinningVelocity: SpiningVelocityEnum;
   onSpinStop: (index: number) => void;
 }
 
 export default function Wheel(props: WheelProps) {
-  const { data, spinningVelocity, onSpinStop } = props;
+  const { canSpinWheel, setCanSpinWheel, data, spinningVelocity, onSpinStop } =
+    props;
 
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
 
   function handleSpinClick(): void {
     setPrizeNumber(Math.floor(Math.random() * data.length));
+
+    setCanSpinWheel(false);
     setMustSpin(true);
   }
 
@@ -55,7 +60,8 @@ export default function Wheel(props: WheelProps) {
       />
 
       <button
-        className="flex items-center text-base md:text-2xl p-2 md:p-3 bg-orange-600 text-white rounded-lg"
+        className="flex items-center text-base md:text-2xl p-2 md:p-3 bg-orange-600 text-white rounded-lg disabled:opacity-55"
+        disabled={!canSpinWheel}
         onClick={handleSpinClick}
       >
         <ImSpinner11 fill="white" />
