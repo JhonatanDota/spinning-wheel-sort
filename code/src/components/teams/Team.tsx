@@ -20,10 +20,10 @@ export default function Team(props: TeamProps) {
   } = props;
 
   return (
-    <div className="flex flex-col items-center gap-1 md:gap-3 rounded-md md:max-w-[200px]">
+    <div className="flex flex-col items-center gap-1 rounded-md w-32 md:w-52">
       <div
         onClick={() => canSpinWheel && setTeamReceivePlayer(team)}
-        className={`flex px-3 md:px-5 py-0.5 md:py-2 rounded-md transition-colors ${
+        className={`w-full flex justify-center px-3 md:px-5 py-0.5 md:py-2 rounded-md transition-colors ${
           team.id === teamReceivePlayer?.id
             ? "bg-green-700 text-white"
             : "bg-blue-200 text-gray-800"
@@ -32,15 +32,23 @@ export default function Team(props: TeamProps) {
         <span className="uppercase text-lg font-bold">{team.name}</span>
       </div>
 
-      <div className="flex flex-col items-center md:flex-row md:flex-wrap md:gap-3 text-base md:text-xl font-medium text-white">
+      <div className="w-full flex flex-col items-center gap-2 text-base md:text-xl font-medium text-white">
         {team.players.map((player, index) => (
-          <span key={index}>{player}</span>
+          <div
+            key={index}
+            className="flex justify-between items-center gap-1 px-2 py-1 bg-orange-600 rounded-md w-full"
+          >
+            <span className="overflow-hidden">{player}</span>
+            <button className="text-sm p-1">
+              <FaTrashAlt />
+            </button>
+          </div>
         ))}
       </div>
 
       <button
         onClick={() => removeTeam(team)}
-        className="flex justify-center p-1.5 bg-red-600 text-white rounded-md w-full disabled:opacity-55"
+        className="flex justify-center p-1.5 mt-1 bg-red-600 text-white rounded-md w-full disabled:opacity-55"
         disabled={!canSpinWheel}
       >
         <FaTrashAlt />

@@ -39,7 +39,7 @@ export default function Teams(props: TeamsProps) {
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 w-full">
       <button
         className="flex items-center gap-2 text-sm md:text-xl self-center uppercase bg-green-600 px-4 md:px-5 py-2 font-bold text-white rounded-lg disabled:opacity-55"
         onClick={addTeam}
@@ -49,7 +49,7 @@ export default function Teams(props: TeamsProps) {
         <span>Time</span>
       </button>
 
-      <div className="grid grid-cols-3 md:flex md:flex-wrap gap-5 md:gap-7">
+      <div className="flex flex-wrap justify-center gap-5 md:gap-10">
         {teams.map((team) => (
           <Team
             key={team.id}
