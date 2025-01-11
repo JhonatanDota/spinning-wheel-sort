@@ -7,6 +7,7 @@ interface TeamProps {
   teamReceivePlayer: TeamModel | null;
   setTeamReceivePlayer: (team: TeamModel) => void;
   removeTeam: (team: TeamModel) => void;
+  removeTeamPlayer: (team: TeamModel, playerIndex: number) => void;
   canSpinWheel: boolean;
 }
 
@@ -16,6 +17,7 @@ export default function Team(props: TeamProps) {
     teamReceivePlayer,
     setTeamReceivePlayer,
     removeTeam,
+    removeTeamPlayer,
     canSpinWheel,
   } = props;
 
@@ -39,7 +41,7 @@ export default function Team(props: TeamProps) {
             className="flex justify-between items-center gap-1 px-2 py-1 bg-orange-600 rounded-md w-full"
           >
             <span className="overflow-hidden">{player}</span>
-            <button className="text-sm p-1">
+            <button onClick={() => removeTeamPlayer(team, index)} className="text-sm p-1">
               <FaTrashAlt />
             </button>
           </div>

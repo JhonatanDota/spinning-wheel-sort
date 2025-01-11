@@ -38,6 +38,15 @@ export default function Teams(props: TeamsProps) {
     setTeams(teams.filter((team) => team.id !== teamToRemove.id));
   }
 
+  function removeTeamPlayer(team: TeamModel, playerIndex: number): void {
+    const updatedTeams = teams.map((teamItem) => {
+      if (teamItem.id === team.id) teamItem.players.splice(playerIndex, 1);
+      return teamItem;
+    });
+
+    setTeams(updatedTeams);
+  }
+
   return (
     <div className="flex flex-col gap-5 w-full">
       <button
@@ -57,6 +66,7 @@ export default function Teams(props: TeamsProps) {
             teamReceivePlayer={teamReceivePlayer}
             setTeamReceivePlayer={setTeamReceivePlayer}
             removeTeam={removeTeam}
+            removeTeamPlayer={removeTeamPlayer}
             canSpinWheel={canSpinWheel}
           />
         ))}
