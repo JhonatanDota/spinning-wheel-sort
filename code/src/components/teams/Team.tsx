@@ -1,3 +1,5 @@
+import { Droppable, Draggable } from "react-beautiful-dnd";
+
 import { TeamModel } from "../../models/teamModels";
 
 import { FaTrashAlt } from "react-icons/fa";
@@ -34,19 +36,37 @@ export default function Team(props: TeamProps) {
         <span className="uppercase text-lg font-bold">{team.name}</span>
       </div>
 
-      <div className="w-full flex flex-col items-center gap-2 text-base md:text-xl font-medium text-white">
-        {team.players.map((player, index) => (
+      <Droppable droppableId={team.id}>
+        {(provided) => (
           <div
-            key={index}
-            className="flex justify-between items-center gap-1 px-2 py-1 bg-orange-600 rounded-md w-full"
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="w-full flex flex-col items-center gap-2 text-base md:text-xl font-medium text-white m-1"
           >
-            <span className="overflow-hidden">{player}</span>
-            <button onClick={() => removeTeamPlayer(team, index)} className="text-sm p-1">
-              <FaTrashAlt />
-            </button>
+            {team.players.map((player, index) => (
+              <Draggable key={player} draggableId={player} index={index}>
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    className="flex justify-between items-center gap-1 px-2 py-1 bg-orange-600 rounded-md w-full"
+                  >
+                    <span className="overflow-hidden">{player}</span>
+                    <button
+                      onClick={() => removeTeamPlayer(team, index)}
+                      className="text-sm p-1"
+                    >
+                      <FaTrashAlt />
+                    </button>
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
           </div>
-        ))}
-      </div>
+        )}
+      </Droppable>
 
       <button
         onClick={() => removeTeam(team)}

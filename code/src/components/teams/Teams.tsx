@@ -1,3 +1,5 @@
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+
 import { TeamModel } from "../../models/teamModels";
 
 import { generateId } from "../../functions/helpers";
@@ -38,6 +40,20 @@ export default function Teams(props: TeamsProps) {
     setTeams(teams.filter((team) => team.id !== teamToRemove.id));
   }
 
+  function addTeamPlayer(
+    team: TeamModel,
+    player: string,
+    destinationIndex: number
+  ): void {
+    const updatedTeams = teams.map((teamItem) => {
+      if (teamItem.id === team.id)
+        teamItem.players.splice(destinationIndex, 0, player);
+      return teamItem;
+    });
+
+    setTeams(updatedTeams);
+  }
+
   function removeTeamPlayer(team: TeamModel, playerIndex: number): void {
     const updatedTeams = teams.map((teamItem) => {
       if (teamItem.id === team.id) teamItem.players.splice(playerIndex, 1);
@@ -45,6 +61,27 @@ export default function Teams(props: TeamsProps) {
     });
 
     setTeams(updatedTeams);
+  }
+
+  function onDragEnd(result: DropResult): void {
+    if (!result.destination) return;
+
+    const sourceTeam = teams.find(
+      (team) => team.id === result.source.droppableId
+    );
+    const sourcePlayerIndex = result.source.index;
+
+    const destinationTeam = teams.find(
+      (team) => team.id === result.destination?.droppableId
+    );
+    const destinationPlayerIndex = result.destination.index;
+
+    if (!sourceTeam || !destinationTeam) {
+      return;
+    }
+
+    removeTeamPlayer(sourceTeam, sourcePlayerIndex);
+    addTeamPlayer(destinationTeam, result.draggableId, destinationPlayerIndex);
   }
 
   return (
@@ -58,19 +95,21 @@ export default function Teams(props: TeamsProps) {
         <span>Time</span>
       </button>
 
-      <div className="flex flex-wrap justify-center gap-5 md:gap-10">
-        {teams.map((team) => (
-          <Team
-            key={team.id}
-            team={team}
-            teamReceivePlayer={teamReceivePlayer}
-            setTeamReceivePlayer={setTeamReceivePlayer}
-            removeTeam={removeTeam}
-            removeTeamPlayer={removeTeamPlayer}
-            canSpinWheel={canSpinWheel}
-          />
-        ))}
-      </div>
+      <DragDropContext onDragEnd={(result: DropResult) => onDragEnd(result)}>
+        <div className="flex flex-wrap justify-center gap-5 md:gap-10">
+          {teams.map((team) => (
+            <Team
+              key={team.id}
+              team={team}
+              teamReceivePlayer={teamReceivePlayer}
+              setTeamReceivePlayer={setTeamReceivePlayer}
+              removeTeam={removeTeam}
+              removeTeamPlayer={removeTeamPlayer}
+              canSpinWheel={canSpinWheel}
+            />
+          ))}
+        </div>
+      </DragDropContext>
     </div>
   );
 }
