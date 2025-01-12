@@ -83,6 +83,7 @@ export default function Teams(props: TeamsProps) {
     removeTeamPlayer(sourceTeam, sourcePlayerIndex);
     addTeamPlayer(destinationTeam, result.draggableId, destinationPlayerIndex);
   }
+  
 
   return (
     <div className="flex flex-col gap-5 w-full">
