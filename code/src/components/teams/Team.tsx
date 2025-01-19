@@ -44,7 +44,7 @@ export default function Team(props: TeamProps) {
             className="w-full flex flex-col items-center gap-2 text-base md:text-xl font-medium text-white m-1"
           >
             {team.players.map((player, index) => (
-              <Draggable key={player} draggableId={player} index={index}>
+              <Draggable key={player.id} draggableId={player.id} index={index}>
                 {(provided) => (
                   <div
                     ref={provided.innerRef}
@@ -52,7 +52,7 @@ export default function Team(props: TeamProps) {
                     {...provided.dragHandleProps}
                     className="flex justify-between items-center gap-1 px-2 py-1 bg-orange-600 rounded-md w-full"
                   >
-                    <span className="overflow-hidden">{player}</span>
+                    <span className="overflow-hidden">{player.name}</span>
                     <button
                       onClick={() => removeTeamPlayer(team, index)}
                       className="text-sm p-1"

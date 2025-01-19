@@ -7,6 +7,7 @@ import { generateId } from "../../functions/helpers";
 import { FaPlusCircle } from "react-icons/fa";
 
 import Team from "./Team";
+import { TeamPlayer } from "../../models/teamPlayerModels";
 
 interface TeamsProps {
   teams: TeamModel[];
@@ -42,7 +43,7 @@ export default function Teams(props: TeamsProps) {
 
   function addTeamPlayer(
     team: TeamModel,
-    player: string,
+    player: TeamPlayer,
     destinationIndex: number
   ): void {
     const updatedTeams = teams.map((teamItem) => {
@@ -70,20 +71,20 @@ export default function Teams(props: TeamsProps) {
       (team) => team.id === result.source.droppableId
     );
     const sourcePlayerIndex = result.source.index;
+    const teamPlayer = sourceTeam?.players.at(sourcePlayerIndex);
 
     const destinationTeam = teams.find(
       (team) => team.id === result.destination?.droppableId
     );
     const destinationPlayerIndex = result.destination.index;
 
-    if (!sourceTeam || !destinationTeam) {
+    if (!sourceTeam || !destinationTeam || !teamPlayer) {
       return;
     }
 
     removeTeamPlayer(sourceTeam, sourcePlayerIndex);
-    addTeamPlayer(destinationTeam, result.draggableId, destinationPlayerIndex);
+    addTeamPlayer(destinationTeam, teamPlayer, destinationPlayerIndex);
   }
-  
 
   return (
     <div className="flex flex-col gap-5 w-full">

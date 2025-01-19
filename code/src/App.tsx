@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, Flip } from "react-toastify";
 import { WheelDataType } from "react-custom-roulette";
 
-import { stringShortener } from "./functions/helpers";
+import { generateId, stringShortener } from "./functions/helpers";
 
 import { ParticipantModel } from "./models/participantModels";
 import { TeamModel } from "./models/teamModels";
@@ -30,7 +30,11 @@ function App() {
     if (drawn && drawn.option && teamReceivePlayer) {
       const playerName = drawn.option;
       const updatedTeams = teams.map((team) => {
-        if (team.id === teamReceivePlayer.id) team.players.push(playerName);
+        if (team.id === teamReceivePlayer.id)
+          team.players.push({
+            id: generateId(),
+            name: playerName,
+          });
         return team;
       });
 
@@ -67,7 +71,7 @@ function App() {
     if (!teamReceivePlayerExists) {
       setTeamReceivePlayer(null);
     }
-  }, [teams]);
+  }, [teams, teamReceivePlayer]);
 
   return (
     <div className="flex flex-col items-center md:grid md:grid-cols-2 md:items-start gap-5 p-4 overflow-x-hidden">
