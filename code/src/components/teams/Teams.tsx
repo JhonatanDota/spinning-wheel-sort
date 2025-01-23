@@ -1,13 +1,14 @@
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-
-import { TeamModel } from "../../models/teamModels";
+import { FaPlusCircle } from "react-icons/fa";
 
 import { generateId } from "../../functions/helpers";
 
-import { FaPlusCircle } from "react-icons/fa";
+import { TeamPlayer } from "../../models/teamPlayerModels";
+import { TeamModel } from "../../models/teamModels";
 
 import Team from "./Team";
-import { TeamPlayer } from "../../models/teamPlayerModels";
+import EditTeamModal from "./EditTeamModal";
+import { useState } from "react";
 
 interface TeamsProps {
   teams: TeamModel[];
@@ -26,6 +27,11 @@ export default function Teams(props: TeamsProps) {
     canSpinWheel,
   } = props;
 
+  const [openEditTeamModal, setOpenEditTeamModal] = useState<boolean>(false);
+  const [selectedEditTeam, setSelectedEditTeam] = useState<TeamModel | null>(
+    null
+  );
+
   function addTeam(): void {
     const team: TeamModel = {
       id: generateId(),
@@ -37,8 +43,16 @@ export default function Teams(props: TeamsProps) {
     setTeamReceivePlayer(team);
   }
 
-  function removeTeam(teamToRemove: TeamModel): void {
-    setTeams(teams.filter((team) => team.id !== teamToRemove.id));
+  function removeTeam(targetTeam: TeamModel): void {
+    setTeams(teams.filter((team) => team.id !== targetTeam.id));
+  }
+
+  function editTeamName(targetTeam: TeamModel, name: string) {
+    const team = teams.find((team) => team.id === targetTeam.id);
+    if (team) {
+      team.name = name;
+      setTeams([...teams]);
+    }
   }
 
   function addTeamPlayer(
@@ -46,22 +60,19 @@ export default function Teams(props: TeamsProps) {
     player: TeamPlayer,
     destinationIndex: number
   ): void {
-    const updatedTeams = teams.map((teamItem) => {
-      if (teamItem.id === team.id)
-        teamItem.players.splice(destinationIndex, 0, player);
-      return teamItem;
-    });
-
-    setTeams(updatedTeams);
+    const teamToUpdate = teams.find((teamItem) => teamItem.id === team.id);
+    if (teamToUpdate) {
+      teamToUpdate.players.splice(destinationIndex, 0, player);
+      setTeams([...teams]);
+    }
   }
 
-  function removeTeamPlayer(team: TeamModel, playerIndex: number): void {
-    const updatedTeams = teams.map((teamItem) => {
-      if (teamItem.id === team.id) teamItem.players.splice(playerIndex, 1);
-      return teamItem;
-    });
-
-    setTeams(updatedTeams);
+  function removeTeamPlayer(targetTeam: TeamModel, playerIndex: number): void {
+    const teamToUpdate = teams.find((team) => team.id === targetTeam.id);
+    if (teamToUpdate) {
+      teamToUpdate.players.splice(playerIndex, 1);
+      setTeams([...teams]);
+    }
   }
 
   function onDragEnd(result: DropResult): void {
@@ -107,11 +118,23 @@ export default function Teams(props: TeamsProps) {
               setTeamReceivePlayer={setTeamReceivePlayer}
               removeTeam={removeTeam}
               removeTeamPlayer={removeTeamPlayer}
+              setSelectedTeamModal={(team) => {
+                setSelectedEditTeam(team);
+                setOpenEditTeamModal(true);
+              }}
               canSpinWheel={canSpinWheel}
             />
           ))}
         </div>
       </DragDropContext>
+
+      {selectedEditTeam && openEditTeamModal && (
+        <EditTeamModal
+          team={selectedEditTeam}
+          editTeamName={editTeamName}
+          setIsOpen={setOpenEditTeamModal}
+        />
+      )}
     </div>
   );
 }

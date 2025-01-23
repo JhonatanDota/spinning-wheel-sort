@@ -2,7 +2,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { TeamModel } from "../../models/teamModels";
 
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
 
 interface TeamProps {
   team: TeamModel;
@@ -10,6 +10,7 @@ interface TeamProps {
   setTeamReceivePlayer: (team: TeamModel) => void;
   removeTeam: (team: TeamModel) => void;
   removeTeamPlayer: (team: TeamModel, playerIndex: number) => void;
+  setSelectedTeamModal: (team: TeamModel) => void;
   canSpinWheel: boolean;
 }
 
@@ -20,6 +21,7 @@ export default function Team(props: TeamProps) {
     setTeamReceivePlayer,
     removeTeam,
     removeTeamPlayer,
+    setSelectedTeamModal,
     canSpinWheel,
   } = props;
 
@@ -27,13 +29,15 @@ export default function Team(props: TeamProps) {
     <div className="flex flex-col items-center gap-1 rounded-md w-32 md:w-52">
       <div
         onClick={() => canSpinWheel && setTeamReceivePlayer(team)}
-        className={`w-full flex justify-center px-3 md:px-5 py-0.5 md:py-2 rounded-md transition-colors ${
+        className={`w-full flex justify-center text-center px-3 md:px-5 py-0.5 md:py-2 rounded-md ${
           team.id === teamReceivePlayer?.id
             ? "bg-green-700 text-white"
             : "bg-blue-200 text-gray-800"
         } ${canSpinWheel ? "cursor-pointer" : "cursor-not-allowed"}`}
       >
-        <span className="uppercase text-lg font-bold">{team.name}</span>
+        <span className="uppercase text-lg font-bold overflow-hidden">
+          {team.name}
+        </span>
       </div>
 
       <Droppable droppableId={team.id}>
@@ -68,13 +72,23 @@ export default function Team(props: TeamProps) {
         )}
       </Droppable>
 
-      <button
-        onClick={() => removeTeam(team)}
-        className="flex justify-center p-1.5 mt-1 bg-red-600 text-white rounded-md w-full disabled:opacity-55"
-        disabled={!canSpinWheel}
-      >
-        <FaTrashAlt />
-      </button>
+      <div className="w-full grid grid-cols-2 gap-2">
+        <button
+          onClick={() => setSelectedTeamModal(team)}
+          className="flex justify-center p-1.5 mt-1 bg-yellow-600 text-white rounded-md disabled:opacity-55"
+          disabled={!canSpinWheel}
+        >
+          <FaEdit />
+        </button>
+
+        <button
+          onClick={() => removeTeam(team)}
+          className="flex justify-center p-1.5 mt-1 bg-red-600 text-white rounded-md disabled:opacity-55"
+          disabled={!canSpinWheel}
+        >
+          <FaTrashAlt />
+        </button>
+      </div>
     </div>
   );
 }

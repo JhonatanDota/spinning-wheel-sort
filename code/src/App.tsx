@@ -29,20 +29,19 @@ function App() {
 
     if (drawn && drawn.option && teamReceivePlayer) {
       const playerName = drawn.option;
-      const updatedTeams = teams.map((team) => {
-        if (team.id === teamReceivePlayer.id)
-          team.players.push({
-            id: generateId(),
-            name: playerName,
-          });
-        return team;
-      });
+
+      teams
+        .find((team) => team.id === teamReceivePlayer.id)
+        ?.players.push({
+          id: generateId(),
+          name: playerName,
+        });
 
       setTimeout(() => {
         setParticipants((prev) => {
           return prev.filter((_, i) => i !== drawnIndex);
         });
-        setTeams(updatedTeams);
+        setTeams(teams);
       }, AVOID_WHEEL_BLINK_DELAY_MS);
     }
 
