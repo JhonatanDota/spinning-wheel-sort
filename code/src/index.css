@@ -7,3 +7,12 @@
 body {
     background-color: rgb(2, 4, 54);
 }
+
+.super-secret-message {
+    position: fixed;
+    right: 1px;
+    bottom: 1px;
+    font-size: 0.3rem;
+    color: rgb(146, 0, 0);
+    font-weight: bold;
+}
