@@ -24,11 +24,11 @@ export default function BaseModal(props: BaseModalProps) {
       onClick={handleBackgroundClick}
     >
       <div
-        className="relative flex flex-col px-3 py-1 bg-[#020436] rounded-md shadow-lg"
+        className="relative flex flex-col px-3 py-2 bg-[#020436] rounded-md shadow-lg"
         onClick={handleModalClick}
       >
         <button
-          className="absolute top-1 right-1 text-red-500"
+          className="absolute top-1 right-1 text-red-400"
           onClick={function () {
             setIsOpen(false);
           }}

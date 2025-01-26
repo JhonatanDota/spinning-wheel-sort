@@ -3,6 +3,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { TeamModel } from "../../models/teamModels";
 
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { RiDragMove2Line } from "react-icons/ri";
 
 interface TeamProps {
   team: TeamModel;
@@ -53,16 +54,22 @@ export default function Team(props: TeamProps) {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    {...provided.dragHandleProps}
                     className="flex justify-between items-center gap-1 px-2 py-1 bg-orange-600 rounded-md w-full"
                   >
                     <span className="overflow-hidden">{player.name}</span>
-                    <button
-                      onClick={() => removeTeamPlayer(team, index)}
-                      className="text-sm p-1"
-                    >
-                      <FaTrashAlt />
-                    </button>
+
+                    <div className="flex items-center">
+                      <button {...provided.dragHandleProps}>
+                        <RiDragMove2Line />
+                      </button>
+
+                      <button
+                        onClick={() => removeTeamPlayer(team, index)}
+                        className="text-sm p-1"
+                      >
+                        <FaTrashAlt />
+                      </button>
+                    </div>
                   </div>
                 )}
               </Draggable>
