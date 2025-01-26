@@ -1,7 +1,7 @@
-import { TeamPlayer } from "./teamPlayerModels";
+import { TeamPlayerModel } from "./teamPlayerModels";
 
 export type TeamModel = {
   id: string;
   name: string;
-  players: TeamPlayer[];
+  players: TeamPlayerModel[];
 };

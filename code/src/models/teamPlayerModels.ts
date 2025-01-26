@@ -1,4 +1,4 @@
-export type TeamPlayer = {
+export type TeamPlayerModel = {
   id: string;
   name: string;
 };

@@ -3,7 +3,7 @@ import { FaPlusCircle } from "react-icons/fa";
 
 import { generateId } from "../../functions/helpers";
 
-import { TeamPlayer } from "../../models/teamPlayerModels";
+import { TeamPlayerModel } from "../../models/teamPlayerModels";
 import { TeamModel } from "../../models/teamModels";
 
 import Team from "./Team";
@@ -57,7 +57,7 @@ export default function Teams(props: TeamsProps) {
 
   function addTeamPlayer(
     team: TeamModel,
-    player: TeamPlayer,
+    player: TeamPlayerModel,
     destinationIndex: number
   ): void {
     const teamToUpdate = teams.find((teamItem) => teamItem.id === team.id);
