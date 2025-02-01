@@ -90,7 +90,7 @@ export default function Participants(props: ParticipantsProps) {
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-2">
       <div className="flex gap-2 m-auto">
         <input
           className="text-sm md:text-xl font-medium px-3 md:px-4 py-1.5 md:py-3 rounded-md focus:outline-none"
@@ -111,6 +111,10 @@ export default function Participants(props: ParticipantsProps) {
           <FaPlusCircle />
         </button>
       </div>
+
+      <span className="text-2xl md:text-3xl font-bold text-center text-white">
+        {participants.length}
+      </span>
 
       <div className="flex flex-wrap justify-center gap-3">
         <AnimatePresence>
