@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { FaPlusCircle } from "react-icons/fa";
 
@@ -113,14 +114,25 @@ export default function Participants(props: ParticipantsProps) {
       </div>
 
       <div className="flex flex-wrap justify-center gap-3">
-        {participants.map((participant, index) => (
-          <Participant
-            key={index}
-            participant={participant}
-            removeParticipant={() => removeParticipant(index)}
-            canSpinWheel={canSpinWheel}
-          />
-        ))}
+        <AnimatePresence>
+          {participants.map((participant, index) => (
+            <motion.div
+              key={index}
+              layout
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Participant
+                key={index}
+                participant={participant}
+                removeParticipant={() => removeParticipant(index)}
+                canSpinWheel={canSpinWheel}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );
