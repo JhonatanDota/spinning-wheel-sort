@@ -6,7 +6,10 @@ import { FaPlusCircle } from "react-icons/fa";
 
 import { ParticipantModel } from "../../models/participantModels";
 
-import { participantMessages } from "../../extra/participantEasterEgg";
+import {
+  participantMessages,
+  prohibitedParticipants,
+} from "../../extra/participantEasterEgg";
 
 import Participant from "./Participant";
 
@@ -32,6 +35,8 @@ export default function Participants(props: ParticipantsProps) {
 
     try {
       addParticipantValidations(participant);
+      handlePartipantIsProhibited(participant);
+
       addParticipant(participant);
       handleParticipantEasterEgg(participant);
 
@@ -86,6 +91,13 @@ export default function Participants(props: ParticipantsProps) {
 
     if (participantMessage) {
       toast(participantMessage);
+    }
+  }
+
+  function handlePartipantIsProhibited(participant: ParticipantModel): void {
+    if (prohibitedParticipants.includes(participant.name.toUpperCase())) {
+      toast("Esse cara aqui não 😡");
+      throw new Error();
     }
   }
 
