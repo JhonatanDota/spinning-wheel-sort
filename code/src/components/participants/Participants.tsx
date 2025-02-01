@@ -90,10 +90,10 @@ export default function Participants(props: ParticipantsProps) {
   }
 
   return (
-    <div className="flex flex-col gap-5 md:gap-7">
-      <div className="flex flex-col items-center gap-3 md:gap-5">
+    <div className="flex flex-col gap-5">
+      <div className="flex gap-2 m-auto">
         <input
-          className="text-sm md:text-xl font-medium px-3 md:px-4 py-1.5 md:py-3 rounded-lg focus:outline-none"
+          className="text-sm md:text-xl font-medium px-3 md:px-4 py-1.5 md:py-3 rounded-md focus:outline-none"
           type="text"
           value={participantName}
           onChange={(e) => setParticipantName(e.target.value)}
@@ -105,11 +105,10 @@ export default function Participants(props: ParticipantsProps) {
 
         <button
           onClick={handleAddParticipant}
-          className="flex items-center gap-2 text-sm md:text-xl font-bold px-4 md:px-5 py-2 rounded-lg bg-green-600 text-white disabled:opacity-55"
+          className="flex items-center text-base md:text-2xl px-4 md:px-3 py-3 rounded-md bg-green-600 text-white disabled:opacity-55"
           disabled={!canSpinWheel}
         >
           <FaPlusCircle />
-          <span className="uppercase">Participante</span>
         </button>
       </div>
 
