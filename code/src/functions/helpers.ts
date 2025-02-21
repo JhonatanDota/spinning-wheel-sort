@@ -13,3 +13,7 @@ export function stringShortener(text: string, maxLength: number): string {
 export function generateId(): string {
   return Date.now() + Math.random().toString(36).substring(2, 9);
 }
+
+export function randomizeIndex(length: number): number {
+  return Math.floor(Math.random() * length);
+}
