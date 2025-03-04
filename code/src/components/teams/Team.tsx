@@ -1,11 +1,19 @@
+import { useState } from "react";
+
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
+import EditPlayerModal from "./EditPlayerModal";
+
 import { TeamModel } from "../../models/teamModels";
+import { TeamPlayerModel } from "../../models/teamPlayerModels";
 
 import { FaTrashAlt, FaEdit, FaPlusCircle } from "react-icons/fa";
 import { RiDragMove2Line } from "react-icons/ri";
+import { MdEdit } from "react-icons/md";
 
 interface TeamProps {
+  teams: TeamModel[];
+  setTeams: (teams: TeamModel[]) => void;
   team: TeamModel;
   teamReceivePlayer: TeamModel | null;
   setTeamReceivePlayer: (team: TeamModel) => void;
@@ -19,6 +27,8 @@ interface TeamProps {
 
 export default function Team(props: TeamProps) {
   const {
+    teams,
+    setTeams,
     team,
     teamReceivePlayer,
     setTeamReceivePlayer,
@@ -29,8 +39,29 @@ export default function Team(props: TeamProps) {
     canSpinWheel,
   } = props;
 
+  const [openEditTeamPlayerModal, setOpenEditTeamPlayerModal] =
+    useState<boolean>(false);
+  const [selectedEditTeamPlayer, setSelectedEditTeamPlayer] =
+    useState<TeamPlayerModel | null>(null);
+
+  function editTeamPlayerName(
+    targetTeam: TeamModel,
+    targetPlayer: TeamPlayerModel,
+    newName: string
+  ): void {
+    const teamToUpdate = teams.find((team) => team.id === targetTeam.id);
+    const playerToUpdate = teamToUpdate?.players.find(
+      (player) => player.id === targetPlayer.id
+    );
+
+    if (playerToUpdate) {
+      playerToUpdate.name = newName;
+      setTeams([...teams]);
+    }
+  }
+
   return (
-    <div className="flex flex-col items-center gap-1 rounded-md w-32 md:w-52">
+    <div className="flex flex-col items-center gap-1 rounded-md w-40 md:w-52">
       <div
         onClick={() => canSpinWheel && setTeamReceivePlayer(team)}
         className={`w-full flex justify-center text-center px-3 md:px-5 py-0.5 md:py-2 rounded-md ${
@@ -57,18 +88,32 @@ export default function Team(props: TeamProps) {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className="flex justify-between items-center gap-1 px-2 py-1 bg-orange-600 rounded-md w-full"
+                    className="flex justify-between items-center gap-1.5 px-2 py-1 bg-orange-600 rounded-md w-full"
                   >
                     <span className="overflow-hidden">{player.name}</span>
 
                     <div className="flex items-center">
-                      <button {...provided.dragHandleProps}>
+                      <button
+                        className="hover:text-blue-400"
+                        {...provided.dragHandleProps}
+                      >
                         <RiDragMove2Line />
                       </button>
 
                       <button
+                        onClick={() => {
+                          setSelectedEditTeamPlayer(player);
+                          setOpenEditTeamPlayerModal(true);
+                        }}
+                        className="hover:text-yellow-400"
+                        {...provided.dragHandleProps}
+                      >
+                        <MdEdit />
+                      </button>
+
+                      <button
                         onClick={() => removeTeamPlayer(team, index)}
-                        className="text-sm p-1"
+                        className="text-sm p-1 hover:text-red-700"
                       >
                         <FaTrashAlt />
                       </button>
@@ -107,6 +152,15 @@ export default function Team(props: TeamProps) {
           <FaTrashAlt />
         </button>
       </div>
+
+      {selectedEditTeamPlayer && openEditTeamPlayerModal && (
+        <EditPlayerModal
+          team={team}
+          player={selectedEditTeamPlayer}
+          editPlayerName={editTeamPlayerName}
+          setIsOpen={setOpenEditTeamPlayerModal}
+        />
+      )}
     </div>
   );
 }

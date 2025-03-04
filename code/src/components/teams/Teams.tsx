@@ -129,6 +129,8 @@ export default function Teams(props: TeamsProps) {
           {teams.map((team) => (
             <Team
               key={team.id}
+              teams={teams}
+              setTeams={setTeams}
               team={team}
               teamReceivePlayer={teamReceivePlayer}
               setTeamReceivePlayer={setTeamReceivePlayer}
