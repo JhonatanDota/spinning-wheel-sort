@@ -13,7 +13,7 @@ export default function EditTeamModal(props: EditTeamModalProps) {
   return (
     <BaseModal title="EDITAR TIME" setIsOpen={setIsOpen}>
       <input
-        className="font-medium my-1 rounded-md p-1.5 bg-green-800 text-white focus:outline-none"
+        className="font-medium my-1 rounded-md p-1.5 focus:outline-none"
         type="text"
         onChange={(e) => editTeamName(team, e.target.value)}
         value={team.name.toUpperCase()}

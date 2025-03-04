@@ -16,3 +16,7 @@ body {
     color: rgb(146, 0, 0);
     font-weight: bold;
 }
+
+.team-action-button {
+    @apply flex justify-center p-2 mt-1 text-white rounded-md disabled:opacity-55
+}

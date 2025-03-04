@@ -2,7 +2,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { TeamModel } from "../../models/teamModels";
 
-import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaTrashAlt, FaEdit, FaPlusCircle } from "react-icons/fa";
 import { RiDragMove2Line } from "react-icons/ri";
 
 interface TeamProps {
@@ -11,7 +11,9 @@ interface TeamProps {
   setTeamReceivePlayer: (team: TeamModel) => void;
   removeTeam: (team: TeamModel) => void;
   removeTeamPlayer: (team: TeamModel, playerIndex: number) => void;
-  setSelectedTeamModal: (team: TeamModel) => void;
+  setSelectedTeamEdit: (team: TeamModel) => void;
+  setSelectedTeamAddPlayer: (team: TeamModel) => void;
+
   canSpinWheel: boolean;
 }
 
@@ -22,7 +24,8 @@ export default function Team(props: TeamProps) {
     setTeamReceivePlayer,
     removeTeam,
     removeTeamPlayer,
-    setSelectedTeamModal,
+    setSelectedTeamEdit,
+    setSelectedTeamAddPlayer,
     canSpinWheel,
   } = props;
 
@@ -79,10 +82,18 @@ export default function Team(props: TeamProps) {
         )}
       </Droppable>
 
-      <div className="w-full grid grid-cols-2 gap-2">
+      <div className="w-full grid grid-cols-3 gap-2">
         <button
-          onClick={() => setSelectedTeamModal(team)}
-          className="flex justify-center p-1.5 mt-1 bg-yellow-600 text-white rounded-md disabled:opacity-55"
+          onClick={() => setSelectedTeamAddPlayer(team)}
+          className="team-action-button bg-green-600"
+          disabled={!canSpinWheel}
+        >
+          <FaPlusCircle />
+        </button>
+
+        <button
+          onClick={() => setSelectedTeamEdit(team)}
+          className="team-action-button bg-yellow-600"
           disabled={!canSpinWheel}
         >
           <FaEdit />
@@ -90,7 +101,7 @@ export default function Team(props: TeamProps) {
 
         <button
           onClick={() => removeTeam(team)}
-          className="flex justify-center p-1.5 mt-1 bg-red-600 text-white rounded-md disabled:opacity-55"
+          className="team-action-button bg-red-600"
           disabled={!canSpinWheel}
         >
           <FaTrashAlt />

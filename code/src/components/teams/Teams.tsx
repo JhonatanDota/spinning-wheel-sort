@@ -11,6 +11,7 @@ import { TeamModel } from "../../models/teamModels";
 
 import Team from "./Team";
 import EditTeamModal from "./EditTeamModal";
+import AddTeamPlayerModal from "./AddTeamPlayerModal";
 
 interface TeamsProps {
   teams: TeamModel[];
@@ -30,9 +31,11 @@ export default function Teams(props: TeamsProps) {
   } = props;
 
   const [openEditTeamModal, setOpenEditTeamModal] = useState<boolean>(false);
-  const [selectedEditTeam, setSelectedEditTeam] = useState<TeamModel | null>(
-    null
-  );
+  const [openAddTeamPlayerModal, setOpenAddTeamPlayerModal] =
+    useState<boolean>(false);
+
+  const [selectedActionTeam, setSelectedActionTeam] =
+    useState<TeamModel | null>(null);
 
   function addTeam(): void {
     const team: TeamModel = {
@@ -131,9 +134,13 @@ export default function Teams(props: TeamsProps) {
               setTeamReceivePlayer={setTeamReceivePlayer}
               removeTeam={removeTeam}
               removeTeamPlayer={removeTeamPlayer}
-              setSelectedTeamModal={(team) => {
-                setSelectedEditTeam(team);
+              setSelectedTeamEdit={(team) => {
+                setSelectedActionTeam(team);
                 setOpenEditTeamModal(true);
+              }}
+              setSelectedTeamAddPlayer={(team) => {
+                setSelectedActionTeam(team);
+                setOpenAddTeamPlayerModal(true);
               }}
               canSpinWheel={canSpinWheel}
             />
@@ -141,11 +148,19 @@ export default function Teams(props: TeamsProps) {
         </div>
       </DragDropContext>
 
-      {selectedEditTeam && openEditTeamModal && (
+      {selectedActionTeam && openEditTeamModal && (
         <EditTeamModal
-          team={selectedEditTeam}
+          team={selectedActionTeam}
           editTeamName={editTeamName}
           setIsOpen={setOpenEditTeamModal}
+        />
+      )}
+
+      {selectedActionTeam && openAddTeamPlayerModal && (
+        <AddTeamPlayerModal
+          team={selectedActionTeam}
+          addTeamPlayer={addTeamPlayer}
+          setIsOpen={setOpenAddTeamPlayerModal}
         />
       )}
     </div>

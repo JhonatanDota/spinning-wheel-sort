@@ -24,16 +24,16 @@ export default function BaseModal(props: BaseModalProps) {
       onClick={handleBackgroundClick}
     >
       <div
-        className="relative flex flex-col px-3 py-2 bg-[#020436] rounded-md shadow-lg"
+        className="relative flex flex-col p-5 bg-[#020436] rounded-md shadow-lg translate-y-[-80%]"
         onClick={handleModalClick}
       >
         <button
-          className="absolute top-1 right-1 text-red-400"
+          className="absolute top-1 right-1"
           onClick={function () {
             setIsOpen(false);
           }}
         >
-          <IoClose />
+          <IoClose fill="red" />
         </button>
 
         <h2 className="mb-4 text-xl font-semibold text-white">{title}</h2>
