@@ -4,4 +4,5 @@ export type TeamModel = {
   id: string;
   name: string;
   players: TeamPlayerModel[];
+  locked: boolean;
 };
