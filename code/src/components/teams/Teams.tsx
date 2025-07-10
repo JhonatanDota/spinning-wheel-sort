@@ -16,19 +16,11 @@ import AddTeamPlayerModal from "./AddTeamPlayerModal";
 interface TeamsProps {
   teams: TeamModel[];
   setTeams: (teams: TeamModel[]) => void;
-  teamReceivePlayer: TeamModel | null;
-  setTeamReceivePlayer: (team: TeamModel) => void;
   canSpinWheel: boolean;
 }
 
 export default function Teams(props: TeamsProps) {
-  const {
-    teams,
-    setTeams,
-    teamReceivePlayer,
-    setTeamReceivePlayer,
-    canSpinWheel,
-  } = props;
+  const { teams, setTeams, canSpinWheel } = props;
 
   const [openEditTeamModal, setOpenEditTeamModal] = useState<boolean>(false);
   const [openAddTeamPlayerModal, setOpenAddTeamPlayerModal] =
@@ -42,10 +34,10 @@ export default function Teams(props: TeamsProps) {
       id: generateId(),
       name: findNotUsedTeamName() ?? `Time ${teams.length + 1}`,
       players: [],
+      locked: false,
     };
 
     setTeams([...teams, team]);
-    setTeamReceivePlayer(team);
   }
 
   function findNotUsedTeamName(): string | null {
@@ -64,11 +56,10 @@ export default function Teams(props: TeamsProps) {
   }
 
   function editTeamName(targetTeam: TeamModel, name: string) {
-    const team = teams.find((team) => team.id === targetTeam.id);
-    if (team) {
-      team.name = name;
-      setTeams([...teams]);
-    }
+    const updatedTeams = teams.map((team) =>
+      team.id === targetTeam.id ? { ...team, name } : team
+    );
+    setTeams(updatedTeams);
   }
 
   function addTeamPlayer(
@@ -114,7 +105,7 @@ export default function Teams(props: TeamsProps) {
   }
 
   return (
-    <div className="flex flex-col gap-5 w-full">
+    <div className="flex flex-col gap-5">
       <button
         className="flex items-center gap-2 text-sm md:text-xl self-center uppercase bg-green-600 px-4 md:px-5 py-2 font-bold text-white rounded-lg disabled:opacity-55"
         onClick={addTeam}
@@ -132,8 +123,6 @@ export default function Teams(props: TeamsProps) {
               teams={teams}
               setTeams={setTeams}
               team={team}
-              teamReceivePlayer={teamReceivePlayer}
-              setTeamReceivePlayer={setTeamReceivePlayer}
               removeTeam={removeTeam}
               removeTeamPlayer={removeTeamPlayer}
               setSelectedTeamEdit={(team) => {

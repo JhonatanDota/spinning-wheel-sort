@@ -7,7 +7,7 @@ import EditPlayerModal from "./EditPlayerModal";
 import { TeamModel } from "../../models/teamModels";
 import { TeamPlayerModel } from "../../models/teamPlayerModels";
 
-import { FaTrashAlt, FaEdit, FaPlusCircle } from "react-icons/fa";
+import { FaTrashAlt, FaEdit, FaPlusCircle, FaLock } from "react-icons/fa";
 import { RiDragMove2Line } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
 
@@ -15,8 +15,6 @@ interface TeamProps {
   teams: TeamModel[];
   setTeams: (teams: TeamModel[]) => void;
   team: TeamModel;
-  teamReceivePlayer: TeamModel | null;
-  setTeamReceivePlayer: (team: TeamModel) => void;
   removeTeam: (team: TeamModel) => void;
   removeTeamPlayer: (team: TeamModel, playerIndex: number) => void;
   setSelectedTeamEdit: (team: TeamModel) => void;
@@ -30,8 +28,6 @@ export default function Team(props: TeamProps) {
     teams,
     setTeams,
     team,
-    teamReceivePlayer,
-    setTeamReceivePlayer,
     removeTeam,
     removeTeamPlayer,
     setSelectedTeamEdit,
@@ -49,30 +45,29 @@ export default function Team(props: TeamProps) {
     targetPlayer: TeamPlayerModel,
     newName: string
   ): void {
-    const teamToUpdate = teams.find((team) => team.id === targetTeam.id);
-    const playerToUpdate = teamToUpdate?.players.find(
-      (player) => player.id === targetPlayer.id
-    );
+    const updatedTeams = teams.map((team) => {
+      if (team.id !== targetTeam.id) return team;
 
-    if (playerToUpdate) {
-      playerToUpdate.name = newName;
-      setTeams([...teams]);
-    }
+      return {
+        ...team,
+        players: team.players.map((player) =>
+          player.id === targetPlayer.id ? { ...player, name: newName } : player
+        ),
+      };
+    });
+
+    setTeams(updatedTeams);
   }
 
   return (
     <div className="flex flex-col items-center gap-1 rounded-md w-40 md:w-52">
-      <div
-        onClick={() => canSpinWheel && setTeamReceivePlayer(team)}
-        className={`w-full flex justify-center text-center px-3 md:px-5 py-0.5 md:py-2 rounded-md ${
-          team.id === teamReceivePlayer?.id
-            ? "bg-green-700 text-white"
-            : "bg-blue-200 text-gray-800"
-        } ${canSpinWheel ? "cursor-pointer" : "cursor-not-allowed"}`}
-      >
-        <span className="uppercase text-lg font-bold overflow-hidden">
-          {team.name}
-        </span>
+      <div className="w-full flex justify-center text-center px-3 md:px-5 py-0.5 md:py-2 rounded-md bg-blue-100 text-gray-800">
+        <div className="flex items-center gap-3">
+          {team.locked && <FaLock />}
+          <span className="uppercase text-lg font-bold overflow-hidden select-none">
+            {team.name}
+          </span>
+        </div>
       </div>
 
       <Droppable droppableId={team.id}>
