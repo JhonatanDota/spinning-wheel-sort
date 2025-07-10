@@ -4,10 +4,11 @@ import Tooltip from "../commom/Tooltip";
 interface TeamsMaxPlayersProps {
   maxPlayers: number | null;
   setMaxPlayers: (value: number | null) => void;
+  disabled: boolean;
 }
 
 export default function TeamMaxPlayers(props: TeamsMaxPlayersProps) {
-  const { maxPlayers, setMaxPlayers } = props;
+  const { maxPlayers, setMaxPlayers, disabled } = props;
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const numbers = event.target.value.replace(/\D/g, "");
@@ -35,6 +36,7 @@ export default function TeamMaxPlayers(props: TeamsMaxPlayersProps) {
         value={maxPlayers ?? ""}
         onChange={handleChange}
         maxLength={2}
+        disabled={disabled}
       />
     </div>
   );

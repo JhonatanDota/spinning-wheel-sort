@@ -62,9 +62,9 @@ export default function Team(props: TeamProps) {
   return (
     <div className="flex flex-col items-center gap-1 rounded-md w-40 md:w-52">
       <div className="w-full flex justify-center text-center px-3 md:px-5 py-0.5 md:py-2 rounded-md bg-blue-100 text-gray-800">
-        <div className="flex items-center gap-3">
-          {team.locked && <FaLock />}
-          <span className="uppercase text-lg font-bold overflow-hidden select-none">
+        <div className="flex items-center gap-1 md:gap-2 flex-wrap overflow-hidden">
+          {team.locked && <FaLock className="m-auto" />}
+          <span className="uppercase text-lg font-bold select-none">
             {team.name}
           </span>
         </div>
@@ -83,7 +83,9 @@ export default function Team(props: TeamProps) {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className="flex justify-between items-center gap-1.5 px-2 py-1 bg-orange-600 rounded-md w-full"
+                    className={`flex justify-between items-center gap-1.5 px-2 py-1 bg-orange-600 rounded-md w-full ${
+                      !canSpinWheel && "opacity-50"
+                    }`}
                   >
                     <span className="overflow-hidden">{player.name}</span>
 
@@ -91,6 +93,7 @@ export default function Team(props: TeamProps) {
                       <button
                         className="hover:text-blue-400"
                         {...provided.dragHandleProps}
+                        disabled={!canSpinWheel}
                       >
                         <RiDragMove2Line />
                       </button>
@@ -102,6 +105,7 @@ export default function Team(props: TeamProps) {
                         }}
                         className="hover:text-yellow-400"
                         {...provided.dragHandleProps}
+                        disabled={!canSpinWheel}
                       >
                         <MdEdit />
                       </button>
@@ -109,6 +113,7 @@ export default function Team(props: TeamProps) {
                       <button
                         onClick={() => removeTeamPlayer(team, index)}
                         className="text-sm p-1 hover:text-red-700"
+                        disabled={!canSpinWheel}
                       >
                         <FaTrashAlt />
                       </button>

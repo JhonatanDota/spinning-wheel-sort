@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ToastContainer, Flip } from "react-toastify";
+import { toast, ToastContainer, Flip } from "react-toastify";
 import { WheelDataType } from "react-custom-roulette";
 
 import {
@@ -44,6 +44,10 @@ function App() {
   function onSpinStop(drawnIndex: number): void {
     const drawnPlayer = wheelData.at(drawnIndex);
     const drawnTeam = drawnUnlockedTeam();
+
+    if (drawnTeam === null) {
+      toast.warn("Nenhum time de destino disponível ou todos estão cheios.");
+    }
 
     if (drawnPlayer && drawnPlayer.option && drawnTeam) {
       const updatedTeams = teams.map((team) => {
@@ -121,6 +125,7 @@ function App() {
           <TeamMaxPlayers
             maxPlayers={teamMaxPlayer}
             setMaxPlayers={setTeamMaxPlayer}
+            disabled={!canSpinWheel}
           />
         )}
       </div>
