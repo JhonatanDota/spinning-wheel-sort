@@ -1,23 +1,21 @@
 import { Link } from "react-router-dom";
-import teste from "../assets/roulette.png";
+import roulette from "../assets/roulette.png";
 
 export default function Home() {
   return (
-    <div className="flex flex-col h-screen items-center justify-center">
+    <div className="flex h-screen items-center justify-center">
       <div className="flex flex-col items-center gap-5 -translate-y-20">
-        <img className="w-24" src={teste} alt="Roleta" />
+        <img className="w-32 md:w-48" src={roulette} alt="Roleta" />
 
-        <Link to={"simple-draw"}>
-          <button className="uppercase font-bold text-white bg-orange-500 p-2 rounded-md">
-            Sorteio Simples
-          </button>
+        <Link className="w-full" to={"simple-draw"}>
+          <button className="home-page-button">Sorteio Simples</button>
         </Link>
 
-        <Link to={"team-draw"}>
-          <button className="uppercase font-bold text-white bg-orange-500 p-2 rounded-md">
-            Sorteio de Times
-          </button>
+        <Link className="w-full" to={"team-draw"}>
+          <button className="home-page-button">Sorteio de Times</button>
         </Link>
+
+        <span className="text-xs font-bold text-white">by Dotinha</span>
       </div>
     </div>
   );
