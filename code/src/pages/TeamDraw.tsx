@@ -50,30 +50,32 @@ export default function TeamDraw() {
       toast.warn("Nenhum time de destino disponível ou todos estão cheios.");
     }
 
-    if (drawnPlayer && drawnPlayer.option && drawnTeam) {
-      const updatedTeams = teams.map((team) => {
-        if (team.id === drawnTeam.id) {
-          return {
-            ...team,
-            players: [
-              ...team.players,
-              {
-                id: generateId(),
-                name: drawnPlayer.option ?? "Player",
-              },
-            ],
-          };
-        }
-        return team;
-      });
+    const shouldUpdateTeams = drawnPlayer && drawnPlayer.option && drawnTeam;
 
-      setTimeout(() => {
-        setParticipants(participants.filter((_, i) => i !== drawnIndex));
-        setTeams(updatedTeams);
-      }, AVOID_WHEEL_BLINK_DELAY_MS);
-    }
+    const updatedTeams = shouldUpdateTeams
+      ? teams.map((team) => {
+          if (team.id === drawnTeam.id) {
+            return {
+              ...team,
+              players: [
+                ...team.players,
+                {
+                  id: generateId(),
+                  name: drawnPlayer.option ?? "Player",
+                },
+              ],
+            };
+          }
+          return team;
+        })
+      : teams;
 
     setTimeout(() => {
+      if (shouldUpdateTeams) {
+        setParticipants(participants.filter((_, i) => i !== drawnIndex));
+        setTeams(updatedTeams);
+      }
+
       setCanSpinWheel(true);
     }, AVOID_WHEEL_BLINK_DELAY_MS);
   }
