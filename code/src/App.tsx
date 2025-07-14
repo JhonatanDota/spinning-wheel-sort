@@ -1,12 +1,28 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 import Routes from "./Routes";
 import { ToastContainer, Flip } from "react-toastify";
+import BackHome from "./components/BackHome";
+
+function AppContent() {
+  const location = useLocation();
+
+  return (
+    <>
+      {location.pathname !== "/" && (
+        <div className="mt-2 ml-2">
+          <BackHome />
+        </div>
+      )}
+      <Routes />
+    </>
+  );
+}
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes />
+        <AppContent />
       </BrowserRouter>
 
       <ToastContainer
