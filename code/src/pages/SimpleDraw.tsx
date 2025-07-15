@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 
 import Wheel from "../components/wheel/Wheel";
 import Participants from "../components/participants/Participants";
+import Toggle from "../components/commom/Toggle";
+
 import { WheelDataType } from "react-custom-roulette";
 import { ParticipantModel } from "../models/participantModels";
 import { stringShortener } from "../functions/helpers";
@@ -15,22 +17,50 @@ export default function SimpleDraw() {
   const [participants, setParticipants] = useState<ParticipantModel[]>([]);
   const [canSpinWheel, setCanSpinWheel] = useState<boolean>(true);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
+  const [lastDrawnWins, setLastDrawnWins] = useState<boolean>(false);
   const [losers, setLosers] = useState<string[]>([]);
 
   function onSpinStop(drawnIndex: number) {
     const drawParticipant = wheelData.at(drawnIndex);
-
-    if (drawParticipant && drawParticipant.option) {
-      setLosers([...losers, drawParticipant.option]);
-
-      setTimeout(() => {
-        setParticipants(participants.filter((_, i) => i !== drawnIndex));
-      }, AVOID_WHEEL_BLINK_DELAY_MS);
-    }
+    const drawParticipantName = drawParticipant?.option;
 
     setTimeout(() => {
+      if (drawParticipantName) {
+        if (lastDrawnWins) {
+          handleLastDrawnWinner(drawnIndex, drawParticipantName);
+        } else {
+          handleFirstDrawnWinner(drawParticipantName);
+        }
+      }
+
       setCanSpinWheel(true);
     }, AVOID_WHEEL_BLINK_DELAY_MS);
+  }
+
+  function handleFirstDrawnWinner(winner: string) {
+    handleWinner(winner);
+  }
+
+  function handleLastDrawnWinner(drawIndex: number, loser: string) {
+    setLosers([...losers, loser]);
+
+    setTimeout(() => {
+      const filteredParticipants = participants.filter(
+        (_, i) => i !== drawIndex
+      );
+
+      if (filteredParticipants.length === 1) {
+        handleWinner(filteredParticipants[0].name);
+      }
+
+      if (filteredParticipants.length >= 1) {
+        setParticipants(filteredParticipants);
+      }
+    }, AVOID_WHEEL_BLINK_DELAY_MS);
+  }
+
+  function handleWinner(winner: string) {
+    alert(winner);
   }
 
   useEffect(() => {
@@ -46,11 +76,18 @@ export default function SimpleDraw() {
   }, [participants]);
 
   return (
-    <div className="flex flex-col items-center gap-5 p-4">
+    <div className="grid md:grid-cols-2 justify-center gap-4 p-4">
+      <div className="flex justify-center items-center gap-1">
+        <Toggle checked={lastDrawnWins} setChecked={setLastDrawnWins} />
+        <span className="uppercase text-xs font-bold text-white">
+          O último sorteado vence
+        </span>
+      </div>
+
       <Participants
         participants={participants}
         setParticipants={setParticipants}
-        canSpinWheel={true}
+        canSpinWheel={canSpinWheel}
       />
 
       <Wheel
@@ -61,11 +98,13 @@ export default function SimpleDraw() {
         onSpinStop={(index: number) => onSpinStop(index)}
       />
 
-      <div className="flex">
-        {losers.map((loser) => (
-          <span className="text-white">{loser}</span>
-        ))}
-      </div>
+      {lastDrawnWins && (
+        <div>
+          {losers.map((loser) => (
+            <span>{loser}</span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
