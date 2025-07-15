@@ -18,7 +18,6 @@ export default function SimpleDraw() {
   const [canSpinWheel, setCanSpinWheel] = useState<boolean>(true);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
   const [lastDrawnWins, setLastDrawnWins] = useState<boolean>(false);
-  const [losers, setLosers] = useState<string[]>([]);
 
   function onSpinStop(drawnIndex: number) {
     const drawParticipant = wheelData.at(drawnIndex);
@@ -42,8 +41,6 @@ export default function SimpleDraw() {
   }
 
   function handleLastDrawnWinner(drawIndex: number, loser: string) {
-    setLosers([...losers, loser]);
-
     setTimeout(() => {
       const filteredParticipants = participants.filter(
         (_, i) => i !== drawIndex
@@ -77,18 +74,20 @@ export default function SimpleDraw() {
 
   return (
     <div className="grid md:grid-cols-2 justify-center gap-4 p-4">
-      <div className="flex justify-center items-center gap-1">
-        <Toggle checked={lastDrawnWins} setChecked={setLastDrawnWins} />
-        <span className="uppercase text-xs font-bold text-white">
-          O último sorteado vence
-        </span>
-      </div>
+      <div className="flex flex-col gap-2.5">
+        <div className="flex justify-center items-center gap-1">
+          <Toggle checked={lastDrawnWins} setChecked={setLastDrawnWins} />
+          <span className="uppercase text-xs md:text-sm font-bold text-white">
+            O último sorteado vence
+          </span>
+        </div>
 
-      <Participants
-        participants={participants}
-        setParticipants={setParticipants}
-        canSpinWheel={canSpinWheel}
-      />
+        <Participants
+          participants={participants}
+          setParticipants={setParticipants}
+          canSpinWheel={canSpinWheel}
+        />
+      </div>
 
       <Wheel
         canSpinWheel={canSpinWheel}
@@ -97,14 +96,6 @@ export default function SimpleDraw() {
         spinningVelocity={SpiningVelocityEnum.FAST}
         onSpinStop={(index: number) => onSpinStop(index)}
       />
-
-      {lastDrawnWins && (
-        <div>
-          {losers.map((loser) => (
-            <span>{loser}</span>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
