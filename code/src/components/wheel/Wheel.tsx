@@ -3,8 +3,7 @@ import { Wheel as WheelRoulette, WheelDataType } from "react-custom-roulette";
 
 import { ImSpinner11 } from "react-icons/im";
 
-import { SpiningVelocityEnum } from "../../enums/spinningVelocityEnum";
-
+import { SpiningVelocityEnum } from "../../constants/wheel";
 interface WheelProps {
   canSpinWheel: boolean;
   setCanSpinWheel: (can: boolean) => void;
@@ -28,7 +27,7 @@ export default function Wheel(props: WheelProps) {
   }
 
   return (
-    <div className="flex items-center overflow-hidden">
+    <div className="flex items-center overflow-hidden z-0">
       <WheelRoulette
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
