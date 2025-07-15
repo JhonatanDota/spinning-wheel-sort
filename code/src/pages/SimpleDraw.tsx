@@ -86,6 +86,7 @@ export default function SimpleDraw() {
           participants={participants}
           setParticipants={setParticipants}
           canSpinWheel={canSpinWheel}
+          allowDuplicatedNames={true}
         />
       </div>
 

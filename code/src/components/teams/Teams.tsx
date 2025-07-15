@@ -4,7 +4,6 @@ import { FaPlusCircle } from "react-icons/fa";
 
 import { generateId } from "../../functions/helpers";
 import { randomizeIndex } from "../../functions/helpers";
-import { teamNames } from "../../extra/teamNames";
 
 import { TeamPlayerModel } from "../../models/teamPlayerModels";
 import { TeamModel } from "../../models/teamModels";
@@ -32,23 +31,12 @@ export default function Teams(props: TeamsProps) {
   function addTeam(): void {
     const team: TeamModel = {
       id: generateId(),
-      name: findNotUsedTeamName() ?? `Time ${teams.length + 1}`,
+      name: `Time ${teams.length + 1}`,
       players: [],
       locked: false,
     };
 
     setTeams([...teams, team]);
-  }
-
-  function findNotUsedTeamName(): string | null {
-    const teamsNames = teams.map((team) => team.name);
-    const notUsedNames: string[] = teamNames.filter(
-      (teamName) => !teamsNames.includes(teamName)
-    );
-
-    if (!notUsedNames.length) return null;
-
-    return notUsedNames[randomizeIndex(notUsedNames.length)];
   }
 
   function removeTeam(targetTeam: TeamModel): void {

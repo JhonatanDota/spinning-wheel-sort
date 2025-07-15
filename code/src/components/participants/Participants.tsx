@@ -6,16 +6,14 @@ import { FaPlusCircle } from "react-icons/fa";
 
 import { ParticipantModel } from "../../models/participantModels";
 
-import {
-  participantMessages,
-  prohibitedParticipants,
-} from "../../extra/participantEasterEgg";
+import { prohibitedParticipants } from "../../extra/participantEasterEgg";
 
 import Participant from "./Participant";
 
 interface ParticipantsProps {
   participants: ParticipantModel[];
   setParticipants: (participants: ParticipantModel[]) => void;
+  allowDuplicatedNames: boolean;
   canSpinWheel: boolean;
 }
 
@@ -24,7 +22,8 @@ export default function Participants(props: ParticipantsProps) {
 
   const KEYBOARD_KEY_ADD_PARTICIPANT = "Enter";
 
-  const { participants, setParticipants, canSpinWheel } = props;
+  const { participants, setParticipants, allowDuplicatedNames, canSpinWheel } =
+    props;
 
   const [participantName, setParticipantName] = useState<string>("");
 
@@ -38,7 +37,6 @@ export default function Participants(props: ParticipantsProps) {
       handlePartipantIsProhibited(participant);
 
       addParticipant(participant);
-      handleParticipantEasterEgg(participant);
 
       setParticipantName("");
     } catch (error) {}
@@ -57,40 +55,29 @@ export default function Participants(props: ParticipantsProps) {
 
   function addParticipantValidations(participant: ParticipantModel): void {
     if (!participant.name.length) {
-      toast("Digita alguma coisa PCD", {
-        type: "warning",
-      });
-
       throw new Error();
     }
 
     if (participant.name.length > MAX_NAME_LENGTH) {
-      toast("Nick grande da porra, diminui isso ai", {
+      toast(`Nome muito longo. Máximo de ${MAX_NAME_LENGTH} caracteres.`, {
         type: "warning",
       });
 
       throw new Error();
     }
 
-    if (
-      participants.some(
-        (p) => p.name.toLowerCase() === participant.name.toLocaleLowerCase()
-      )
-    ) {
-      toast("O arrombado já tá ai", {
-        type: "warning",
-      });
+    if (!allowDuplicatedNames) {
+      if (
+        participants.some(
+          (p) => p.name.toLowerCase() === participant.name.toLocaleLowerCase()
+        )
+      ) {
+        toast("Esse nome já foi adicionado", {
+          type: "warning",
+        });
 
-      throw new Error();
-    }
-  }
-
-  function handleParticipantEasterEgg(participant: ParticipantModel): void {
-    const participantMessage: string | undefined =
-      participantMessages[participant.name.toUpperCase()];
-
-    if (participantMessage) {
-      toast(participantMessage);
+        throw new Error();
+      }
     }
   }
 
@@ -118,7 +105,7 @@ export default function Participants(props: ParticipantsProps) {
         <button
           onClick={handleAddParticipant}
           className="flex items-center text-base md:text-2xl px-4 md:px-3 py-3 rounded-md bg-green-600 text-white disabled:opacity-55"
-          disabled={!canSpinWheel}
+          disabled={!canSpinWheel || !participantName}
         >
           <FaPlusCircle />
         </button>

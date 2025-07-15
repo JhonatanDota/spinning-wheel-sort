@@ -109,6 +109,7 @@ export default function TeamDraw() {
           participants={participants}
           setParticipants={setParticipants}
           canSpinWheel={canSpinWheel}
+          allowDuplicatedNames={false}
         />
 
         <Wheel
