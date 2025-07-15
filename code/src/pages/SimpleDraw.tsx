@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ConfettiExplosion from "react-confetti-explosion";
 
 import Wheel from "../components/wheel/Wheel";
 import Participants from "../components/participants/Participants";
@@ -18,6 +19,8 @@ export default function SimpleDraw() {
   const [canSpinWheel, setCanSpinWheel] = useState<boolean>(true);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
   const [lastDrawnWins, setLastDrawnWins] = useState<boolean>(false);
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+  const [winnerName, setWinnerName] = useState<string>("");
 
   function onSpinStop(drawnIndex: number) {
     const drawParticipant = wheelData.at(drawnIndex);
@@ -57,7 +60,13 @@ export default function SimpleDraw() {
   }
 
   function handleWinner(winner: string) {
-    alert(winner);
+    setShowConfetti(true);
+    setWinnerName(winner);
+
+    setTimeout(() => {
+      setShowConfetti(false);
+      setWinnerName("");
+    }, 3000);
   }
 
   useEffect(() => {
@@ -97,6 +106,16 @@ export default function SimpleDraw() {
         spinningVelocity={SpiningVelocityEnum.FAST}
         onSpinStop={(index: number) => onSpinStop(index)}
       />
+
+      {showConfetti && winnerName && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black/50 backdrop-blur-sm text-white">
+          <ConfettiExplosion />
+
+          <div className="text-3xl md:text-5xl font-bold animate-bounce mt-6">
+            🎉 {winnerName} venceu! 🎉
+          </div>
+        </div>
+      )}
     </div>
   );
 }

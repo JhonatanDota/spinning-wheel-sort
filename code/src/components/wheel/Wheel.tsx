@@ -27,7 +27,7 @@ export default function Wheel(props: WheelProps) {
   }
 
   return (
-    <div className="flex items-center overflow-hidden">
+    <div className="flex items-center overflow-hidden z-0">
       <WheelRoulette
         mustStartSpinning={mustSpin}
         prizeNumber={prizeNumber}
