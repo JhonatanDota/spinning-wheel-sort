@@ -19,6 +19,7 @@ export default function SimpleDraw() {
   const [canSpinWheel, setCanSpinWheel] = useState<boolean>(true);
   const [wheelData, setWheelData] = useState<WheelDataType[]>([{}]);
   const [lastDrawnWins, setLastDrawnWins] = useState<boolean>(false);
+  const [losers, setLosers] = useState<string[]>([]);
   const [showConfetti, setShowConfetti] = useState<boolean>(false);
   const [winnerName, setWinnerName] = useState<string>("");
 
@@ -29,7 +30,7 @@ export default function SimpleDraw() {
     setTimeout(() => {
       if (drawParticipantName) {
         if (lastDrawnWins) {
-          handleLastDrawnWinner(drawnIndex);
+          handleLastDrawnWinner(drawnIndex, drawParticipantName);
         } else {
           handleFirstDrawnWinner(drawParticipantName);
         }
@@ -43,7 +44,10 @@ export default function SimpleDraw() {
     handleWinner(winner);
   }
 
-  function handleLastDrawnWinner(drawIndex: number) {
+  function handleLastDrawnWinner(
+    drawIndex: number,
+    drawParticipantName: string
+  ) {
     const filteredParticipants = participants.filter((_, i) => i !== drawIndex);
 
     if (filteredParticipants.length === 1) {
@@ -51,6 +55,7 @@ export default function SimpleDraw() {
     }
 
     if (filteredParticipants.length >= 1) {
+      setLosers([...losers, drawParticipantName]);
       setParticipants(filteredParticipants);
     }
   }
@@ -60,6 +65,7 @@ export default function SimpleDraw() {
     setWinnerName(winner);
 
     setTimeout(() => {
+      setLosers([]);
       setShowConfetti(false);
       setWinnerName("");
     }, 3000);
@@ -79,7 +85,7 @@ export default function SimpleDraw() {
 
   return (
     <div className="grid md:grid-cols-2 justify-center gap-4 p-4">
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col items-center gap-4">
         <div className="flex justify-center items-center gap-1">
           <Toggle
             checked={lastDrawnWins}
@@ -97,6 +103,19 @@ export default function SimpleDraw() {
           canSpinWheel={canSpinWheel}
           allowDuplicatedNames={true}
         />
+
+        {lastDrawnWins && losers.length > 0 && (
+          <div className="flex flex-col items-center font-bold w-full">
+            <p className="text-base md:text-lg text-white">Nomes Removidos</p>
+            <div className="flex flex-wrap p-1 gap-2">
+              {losers.map((loser) => (
+                <span className="text-sm md:text-base text-yellow-500">
+                  {loser}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <Wheel
