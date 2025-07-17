@@ -81,7 +81,11 @@ export default function SimpleDraw() {
     <div className="grid md:grid-cols-2 justify-center gap-4 p-4">
       <div className="flex flex-col gap-2.5">
         <div className="flex justify-center items-center gap-1">
-          <Toggle checked={lastDrawnWins} setChecked={setLastDrawnWins} />
+          <Toggle
+            checked={lastDrawnWins}
+            setChecked={setLastDrawnWins}
+            disabled={!canSpinWheel}
+          />
           <span className="uppercase text-xs md:text-sm font-bold text-white">
             O último sorteado vence
           </span>
