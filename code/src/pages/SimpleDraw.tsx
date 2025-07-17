@@ -29,7 +29,7 @@ export default function SimpleDraw() {
     setTimeout(() => {
       if (drawParticipantName) {
         if (lastDrawnWins) {
-          handleLastDrawnWinner(drawnIndex, drawParticipantName);
+          handleLastDrawnWinner(drawnIndex);
         } else {
           handleFirstDrawnWinner(drawParticipantName);
         }
@@ -43,20 +43,16 @@ export default function SimpleDraw() {
     handleWinner(winner);
   }
 
-  function handleLastDrawnWinner(drawIndex: number, loser: string) {
-    setTimeout(() => {
-      const filteredParticipants = participants.filter(
-        (_, i) => i !== drawIndex
-      );
+  function handleLastDrawnWinner(drawIndex: number) {
+    const filteredParticipants = participants.filter((_, i) => i !== drawIndex);
 
-      if (filteredParticipants.length === 1) {
-        handleWinner(filteredParticipants[0].name);
-      }
+    if (filteredParticipants.length === 1) {
+      handleWinner(filteredParticipants[0].name);
+    }
 
-      if (filteredParticipants.length >= 1) {
-        setParticipants(filteredParticipants);
-      }
-    }, AVOID_WHEEL_BLINK_DELAY_MS);
+    if (filteredParticipants.length >= 1) {
+      setParticipants(filteredParticipants);
+    }
   }
 
   function handleWinner(winner: string) {
